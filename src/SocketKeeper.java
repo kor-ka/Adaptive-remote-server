@@ -23,8 +23,12 @@ public class SocketKeeper {
     	 ServerSocket ss = new ServerSocket(port); 
     	
     	 Qqueue q = new Qqueue();
+    	 Results r = new Results();
+    	 
+    	 final Counter cntr = new Counter(q,r);
+    	 new Thread(cntr).start();
     	
-    	 final ListenServer ls = new ListenServer(ss, q);
+    	 final ListenServer ls = new ListenServer(ss, q, r);
     	 new Thread(ls).start();
     	 while(true){
     		 final String say = keyboard.readLine();

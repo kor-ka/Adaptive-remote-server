@@ -10,7 +10,7 @@ public class Qqueue {
 	boolean taken = false;
 
 	synchronized Pare get() {
-		if(taken){
+		if(taken || getSzie()<1){
 			System.out.println("Ok, i'll wait...");
 			try {
 				wait();

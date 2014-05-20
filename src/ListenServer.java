@@ -16,9 +16,11 @@ public class ListenServer extends Thread {
 	Socket socket;
 	ArrayList<String> clientIps;
 	Qqueue q;
-	public ListenServer(ServerSocket listenSocket, Qqueue q) {
+	Results r;
+	public ListenServer(ServerSocket listenSocket, Qqueue q, Results r) {
 		this.listenSocket = listenSocket;
 		this.q = q;
+		this.r = r;
 	}
 
 	public void run() {
@@ -53,8 +55,7 @@ public class ListenServer extends Thread {
 					q.put(new Pare(a, b));
 					System.out.println("a:" + a);
 					System.out.println("b:" + b);
-					out.writeUTF("lol, that was ab!");
-					out.flush();
+					
 
 					break;
 
@@ -101,11 +102,7 @@ public class ListenServer extends Thread {
 				delimetr=clientIpPort.indexOf(":");
 				ip = clientIpPort.substring(0, delimetr);
 				port =Integer.parseInt( clientIpPort.substring(delimetr+1));
-				String allQq ="";
-				while (q.getSzie()>0){
-					Pare pare2Send = q.get();
-					allQq = allQq+pare2Send.a+"|"+pare2Send.b+"\n";
-				}
+				
 				
 				System.out.println("trying say:"+ip+":"+port);
 				
@@ -119,8 +116,8 @@ public class ListenServer extends Thread {
 	            DataInputStream in = new DataInputStream(sin);
 	            DataOutputStream out = new DataOutputStream(sout);
 
-	            
-	                out.writeUTF(say+"|"+allQq); 
+	            say =r.get();
+	                out.writeUTF("results:"+say); 
 	                out.flush(); 
 	                clientSocket.close();
 			} catch (IOException e) {
