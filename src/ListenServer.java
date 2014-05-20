@@ -55,14 +55,16 @@ public class ListenServer extends Thread {
 
 				case protocol.register:
 					
-					System.out.println("rtying to register:"+prtcl.outputIP+SocketKeeper.port);
+						String ip = socket.getInetAddress().getHostAddress();
+					
+						System.out.println("rtying to register:"+ip+":"+prtcl.outputPort);
 		           
-					clientIps.add(socket.getInetAddress().getHostAddress());
+					clientIps.add(ip+":"+prtcl.outputPort);
 
 					out.writeUTF("registred");
 					out.flush();
 
-					System.out.println("registred:"+prtcl.outputIP+SocketKeeper.port);
+						System.out.println("registred:"+ip+":"+prtcl.outputPort);
 				}
 
 			} catch (IOException e) {
@@ -75,11 +77,17 @@ public class ListenServer extends Thread {
 	}
 	
 	public void say(String say){
-		for(String clientIp:clientIps){
+		for(String clientIpPort:clientIps){
 			 InputStream sin;
 			try {
-				InetAddress ipAddress = InetAddress.getByName(clientIp);
-				Socket clientSocket = new Socket(ipAddress, SocketKeeper.port);
+				String ip;
+				int port;
+				int delimetr;
+				delimetr=clientIpPort.indexOf(":");
+				ip = clientIpPort.substring(0, delimetr);
+				port =Integer.parseInt( clientIpPort.substring(delimetr+1));
+				InetAddress ipAddress = InetAddress.getByName(ip);
+				Socket clientSocket = new Socket(ipAddress, port);
 				sin = clientSocket.getInputStream();
 			
 	            OutputStream sout = clientSocket.getOutputStream();
