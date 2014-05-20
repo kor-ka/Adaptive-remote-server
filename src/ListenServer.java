@@ -56,15 +56,23 @@ public class ListenServer extends Thread {
 				case protocol.register:
 					
 						String ip = socket.getInetAddress().getHostAddress();
-					
-						System.out.println("rtying to register:"+ip+":"+prtcl.outputPort);
-		           
-					clientIps.add(ip+":"+prtcl.outputPort);
+						if(!clientIps.contains(ip+":"+prtcl.outputPort)){
+							System.out.println("rtying to register:"+ip+":"+prtcl.outputPort);
+					           
+							clientIps.add(ip+":"+prtcl.outputPort);
 
-					out.writeUTF("registred");
-					out.flush();
+							out.writeUTF("registred");
+							out.flush();
 
-						System.out.println("registred:"+ip+":"+prtcl.outputPort);
+								System.out.println("registred:"+ip+":"+prtcl.outputPort);
+						}else{
+							clientIps.remove(ip+":"+prtcl.outputPort);
+							out.writeUTF("unregistred");
+							out.flush();
+
+								System.out.println("unregistred:"+ip+":"+prtcl.outputPort);
+						}
+						
 				}
 
 			} catch (IOException e) {
@@ -79,13 +87,18 @@ public class ListenServer extends Thread {
 	public void say(String say){
 		for(String clientIpPort:clientIps){
 			 InputStream sin;
-			try {
-				String ip;
-				int port;
+			 String ip=null;
+				int port =-1;
 				int delimetr;
+			try {
+				
+				
 				delimetr=clientIpPort.indexOf(":");
 				ip = clientIpPort.substring(0, delimetr);
 				port =Integer.parseInt( clientIpPort.substring(delimetr+1));
+				
+				System.out.println("trying say:"+ip+":"+port);
+				
 				InetAddress ipAddress = InetAddress.getByName(ip);
 				Socket clientSocket = new Socket(ipAddress, port);
 				sin = clientSocket.getInputStream();
@@ -101,7 +114,9 @@ public class ListenServer extends Thread {
 	                out.flush(); 
 	                clientSocket.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				clientIps.remove(ip+":"+port);
+				
+				System.out.println("Ooops, that was exeption, i'l better remove it:"+ip+":"+port);
 				e.printStackTrace();
 			}
 		}

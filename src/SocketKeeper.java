@@ -23,11 +23,17 @@ public class SocketKeeper {
     	
     	 
     	
-    	 ListenServer ls = new ListenServer(ss);
+    	 final ListenServer ls = new ListenServer(ss);
     	 new Thread(ls).start();
     	 while(true){
-    		 String say = keyboard.readLine();
-        	ls.say(say);
+    		 final String say = keyboard.readLine();
+    		 System.out.println("You going 2 say: " + say);
+    		 
+        	new Thread(new Runnable(){
+        		 public void run (){
+        			 ls.say(say);
+        		}
+        	}).start();
     	 }
     	
       } catch(Exception x) { x.printStackTrace(); }
