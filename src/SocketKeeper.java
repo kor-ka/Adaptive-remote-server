@@ -1,4 +1,5 @@
 import java.net.*;
+import java.util.Queue;
 import java.io.*;
 public class SocketKeeper {
 	  static int port;
@@ -21,9 +22,9 @@ public class SocketKeeper {
     	 }
     	 ServerSocket ss = new ServerSocket(port); 
     	
-    	 
+    	 Qqueue q = new Qqueue();
     	
-    	 final ListenServer ls = new ListenServer(ss);
+    	 final ListenServer ls = new ListenServer(ss, q);
     	 new Thread(ls).start();
     	 while(true){
     		 final String say = keyboard.readLine();
@@ -32,6 +33,7 @@ public class SocketKeeper {
         	new Thread(new Runnable(){
         		 public void run (){
         			 ls.say(say);
+        			 return;
         		}
         	}).start();
     	 }

@@ -15,8 +15,10 @@ public class ListenServer extends Thread {
 	DataOutputStream out;
 	Socket socket;
 	ArrayList<String> clientIps;
-	public ListenServer(ServerSocket listenSocket) {
+	Qqueue q;
+	public ListenServer(ServerSocket listenSocket, Qqueue q) {
 		this.listenSocket = listenSocket;
+		this.q = q;
 	}
 
 	public void run() {
@@ -46,8 +48,11 @@ public class ListenServer extends Thread {
 				protocol prtcl = new protocol();
 				switch (prtcl.processInput(line)) {
 				case protocol.ab:
-					System.out.println("a:" + prtcl.outputA);
-					System.out.println("b:" + prtcl.outputB);
+					int a= Integer.parseInt(prtcl.outputA);
+					int b= Integer.parseInt(prtcl.outputB);
+					q.put(new Pare(a, b));
+					System.out.println("a:" + a);
+					System.out.println("b:" + b);
 					out.writeUTF("lol, that was ab!");
 					out.flush();
 
@@ -96,6 +101,11 @@ public class ListenServer extends Thread {
 				delimetr=clientIpPort.indexOf(":");
 				ip = clientIpPort.substring(0, delimetr);
 				port =Integer.parseInt( clientIpPort.substring(delimetr+1));
+				String allQq ="";
+				while (q.getSzie()>0){
+					Pare pare2Send = q.get();
+					allQq = allQq+pare2Send.a+"|"+pare2Send.b+"\n";
+				}
 				
 				System.out.println("trying say:"+ip+":"+port);
 				
@@ -110,7 +120,7 @@ public class ListenServer extends Thread {
 	            DataOutputStream out = new DataOutputStream(sout);
 
 	            
-	                out.writeUTF(say); 
+	                out.writeUTF(say+"|"+allQq); 
 	                out.flush(); 
 	                clientSocket.close();
 			} catch (IOException e) {
