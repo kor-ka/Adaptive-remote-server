@@ -10,6 +10,7 @@ public class Qqueue {
 	boolean taken = false;
 
 	synchronized Pare get() {
+		//I understand, that i don't need wait() while method is synchronized, but just in case...
 		if(taken || getSzie()<1){
 			System.out.println("Ok, i'll wait...");
 			try {
@@ -30,21 +31,11 @@ public class Qqueue {
 	}
 
 	synchronized int getSzie() {
-		if(taken){
-			System.out.println("Ok, i'll wait...");
-			try {
-				wait();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		taken = true;
+		
 		System.out.println("Qq size: " + q.size());
 		
 		
-		taken = false;
-		notify();
+		
 		return q.size();
 	}
 
