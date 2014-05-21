@@ -12,11 +12,20 @@ public class SocketKeeper {
     	     String portLine = null;
     	   
     	 portLine = keyboard.readLine();
-    	 port = Integer.parseInt(portLine);
-    	 while(port==-1){
+    	 try {
+				port = Integer.parseInt(portLine);
+			} catch (Exception e) {
+				
+			}
+    	 while(port <= 1024){
     		 System.out.println("R u kidding me? ");
-    		 System.out.println("Try again");	
-    		 portLine = keyboard.readLine();    	 
+    		 System.out.println("Try again (by the way, the port number must be greater than 1024)");	
+    		 portLine = keyboard.readLine();    
+    		 try {
+				port = Integer.parseInt(portLine);
+			} catch (Exception e) {
+				
+			}
     	 }
     	 ServerSocket ss = new ServerSocket(port); 
     	
