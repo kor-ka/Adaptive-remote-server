@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
 public class Results {
-	ArrayList<Double> r;
+	ArrayList<String> r;
 	public Results() {
 		super();
-		r = new ArrayList<Double>();
+		r = new ArrayList<String>();
 	}
 
 	boolean taken = false;
@@ -21,7 +21,7 @@ public class Results {
 		}
 		taken = true;
 		String toSend="";
-		for(Double result:r){
+		for(String result:r){
 			toSend=toSend+":"+result;
 		}
 		taken = false;
@@ -31,7 +31,7 @@ public class Results {
 
 	
 	
-	synchronized void put(Double  d) {
+	synchronized void put(String  s) {
 		if(taken){
 			System.out.println("Ok, i'll wait...");
 			try {
@@ -42,7 +42,7 @@ public class Results {
 			}
 		}
 		taken = true;
-		r.add(d);
+		r.add(s);
 		
 		taken = false;
 		notify();

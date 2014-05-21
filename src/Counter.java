@@ -27,7 +27,7 @@ public class Counter extends Thread{
 				stop= stop+step;
 			}
 			System.out.println("Result:"+result);
-			r.put(result);
+			r.put("a="+a+"\n"+"b="+b+"\n"+result);
 			
 		}
 	}
