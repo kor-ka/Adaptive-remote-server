@@ -4,10 +4,8 @@ import java.io.*;
 public class SocketKeeper {
 	  static int port;
    public static void main(String[] ar)    {
-     
-     
+	  
        try {
-    	   
     	  
     	     System.out.println("Gimme a POOORT!");
     	     BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
@@ -32,7 +30,7 @@ public class SocketKeeper {
     	 new Thread(ls).start();
     	 while(true){
     		 final String say = keyboard.readLine();
-			 if(say !=null && !say.isEmpty()){
+			 if(say !=null){
 				 System.out.println("You going 2 say: " + say);
 
 				 new Thread(new Runnable(){
