@@ -1,9 +1,10 @@
-import java.io.BufferedReader;
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.InputEvent;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -57,6 +58,21 @@ public class ListenServer extends Thread {
 					System.out.println("b:" + b);
 					
 
+					break;
+					
+				case protocol.click:
+					 Robot robot;
+					try {
+						robot = new Robot();
+						 // LEFT CLICK
+			            robot.mousePress(InputEvent.BUTTON1_MASK);
+			            robot.mouseRelease(InputEvent.BUTTON1_MASK);
+					} catch (AWTException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					 
+			           
 					break;
 
 				case protocol.register:

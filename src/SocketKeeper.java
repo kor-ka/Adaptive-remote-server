@@ -6,7 +6,7 @@ public class SocketKeeper {
    public static void main(String[] ar)    {
 	  
        try {
-    	  
+    	   System.out.println("Host IP: "+InetAddress.getLocalHost().getHostAddress());
     	     System.out.println("Gimme a POOORT!");
     	     BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
     	     String portLine = null;

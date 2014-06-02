@@ -5,6 +5,7 @@ public class protocol
 final static int ab =0;
 final static int register =1;
 final static int wat =2;
+final static int click =3;
 
 public String output;
 public String outputA;
@@ -22,6 +23,9 @@ public int outputPort;
 		} else if(input.contains("registerMe:") ){
 			outputPort =Integer.parseInt( input.substring(11, input.length()));
 			return register;
+		} else if(input.contains("click:") ){
+			
+			return click;
 		}
 		
 		return wat;

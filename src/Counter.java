@@ -1,3 +1,8 @@
+import java.awt.AWTException;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.PointerInfo;
+import java.awt.Robot;
 
 public class Counter extends Thread{
 	
@@ -13,21 +18,30 @@ public class Counter extends Thread{
 			Pare p = q.get();
 			int a = p.a;
 			int b = p.b;
-			if (b<a){
-				int c=a;
-				a=b;
-				b=c;		
-			}
-			double step  = 0.001;
 			
-			double stop=a;
-			double result = 0;
-			while(stop<b){
-				result = result+(stop+1)*step;
-				stop= stop+step;
+			
+			//Get current mouse location
+			PointerInfo poInfo = MouseInfo.getPointerInfo();
+			Point poLoc = poInfo.getLocation();
+			int currentx = (int) poLoc.getX();
+			int currenty = (int) poLoc.getY();
+			
+			
+			int moveToX=currentx+a;
+			int moveToY=currenty+b;
+			
+			 Robot robot;
+			try {
+				robot = new Robot();
+				 // SET THE MOUSE X Y POSITION
+				//robot.mouseMove(a, b);
+	            robot.mouseMove(moveToX, moveToY);
+			} catch (AWTException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			System.out.println("Result:"+result);
-			r.put("a="+a+"\n"+"b="+b+"\n"+result);
+			 
+	           
 			
 		}
 	}
