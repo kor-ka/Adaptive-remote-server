@@ -6,6 +6,8 @@ final static int ab =0;
 final static int register =1;
 final static int wat =2;
 final static int click =3;
+final static int dndDown=4;
+final static int dndUp=5;
 
 public String output;
 public String outputA;
@@ -26,6 +28,12 @@ public int outputPort;
 		} else if(input.contains("click:") ){
 			
 			return click;
+		}else if(input.contains("dndDown:") ){
+			
+			return dndDown;
+		}else if(input.contains("dndUp:") ){
+			
+			return dndUp;
 		}
 		
 		return wat;

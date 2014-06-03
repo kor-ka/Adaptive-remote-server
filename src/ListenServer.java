@@ -45,6 +45,8 @@ public class ListenServer extends Thread {
 				DataOutputStream out = new DataOutputStream(sout);
 
 				String line = null;
+				
+				Robot robot;
 
 				line = in.readUTF();
 				System.out.println("Client say: " + line);
@@ -63,7 +65,7 @@ public class ListenServer extends Thread {
 					break;
 					
 				case protocol.click:
-					 Robot robot;
+					
 					try {
 						robot = new Robot();
 						 // LEFT CLICK
@@ -76,6 +78,38 @@ public class ListenServer extends Thread {
 					 
 			           
 					break;
+					
+				case protocol.dndDown:
+					
+					try {
+						robot = new Robot();
+						 // LEFT CLICK
+			            robot.mousePress(InputEvent.BUTTON1_MASK);
+			            
+					} catch (AWTException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					 
+			           
+					break;
+					
+					case protocol.dndUp:
+					
+					try {
+						robot = new Robot();
+						 // LEFT CLICK
+			            
+			            robot.mouseRelease(InputEvent.BUTTON1_MASK);
+					} catch (AWTException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					 
+			           
+					break;
+					
+					
 
 				case protocol.register:
 					
