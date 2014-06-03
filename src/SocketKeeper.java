@@ -1,16 +1,23 @@
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.UnknownHostException;
+import java.util.Hashtable;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 public class SocketKeeper {
 	  static int port;
    public static void main(String[] ar)    {
@@ -53,8 +60,7 @@ public class SocketKeeper {
     	 while(true){
     		 final String say = keyboard.readLine();
 			 if(say !=null){
-				 System.out.println("You going 2 say: " + say);
-
+				 writeAdress(port);
 				 new Thread(new Runnable(){
 						 public void run (){
 							 ls.say(say);
@@ -69,7 +75,10 @@ public class SocketKeeper {
    }
    
    //UTIL
-   public static void writeAdress(int port){
+   /**
+ * @param port
+ */
+public static void writeAdress(int port){
 	   
 	   try {
 		   
@@ -77,35 +86,47 @@ public class SocketKeeper {
 		   
 		System.out.println("Host IP+Port: "+InetAddress.getLocalHost().getHostAddress()+":"+port);
 	
+		//Собираем QR
+		Hashtable<EncodeHintType, ErrorCorrectionLevel> hintMap = new Hashtable<EncodeHintType, ErrorCorrectionLevel>();
+		hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+
+		QRCodeWriter qrCodeWriter = new QRCodeWriter();
+		BitMatrix bitMatrix = qrCodeWriter.encode(InetAddress.getLocalHost().getHostAddress()+":"+port, BarcodeFormat.QR_CODE, 100, 100, hintMap);
+		//Собираем картинку
 		
-		BitMatrix matrix = new MultiFormatWriter().encode(InetAddress.getLocalHost().getHostAddress()+":"+port, BarcodeFormat.QR_CODE, 20, 20);
+		int matrixWidth = bitMatrix.getWidth();
+		BufferedImage image = new BufferedImage(matrixWidth, matrixWidth, BufferedImage.TYPE_INT_RGB);
+		image.createGraphics();
+		Graphics2D graphics = (Graphics2D) image.getGraphics();
+
+		graphics.setColor(Color.white);
+		graphics.fillRect(0, 0, matrixWidth, matrixWidth);
+
+		Color mainColor = new Color(51, 102, 153);
+		graphics.setColor(mainColor);
+		 
+		//Write Bit Matrix as image
+		for (int i = 0; i < matrixWidth; i++) {
+		    for (int j = 0; j < matrixWidth; j++) {
+		        if (bitMatrix.get(i, j)) {
+		            graphics.fillRect(i, j, 1, 1);
+		        }
+		    }
+		}
 		
+		//Рисуем в свинге
 		JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(100,150);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(150,150);
         
-        //create a label for a heart shape
-        JLabel labelSqare = new JLabel("\u25A0"+"\u0020"+"\u25A0"+"\u2386"+"\u25A0");  
+       
+        ImageIcon icon = new ImageIcon(image);
+        JLabel labelSqare = new JLabel(icon);  
         
         frame.add(labelSqare);
         frame.setVisible(true);
 		
-		for (int h = 0; h<matrix.getHeight(); h++){
-			for(int w = 0; w<matrix.getWidth(); w++){
-				if(matrix.get(h, w)){
-					System.out.print("||");
-					
-				}else{
-					
-					
-					System.out.print("  ");
-				}
-				if(w==matrix.getWidth()-1){
-					System.out.println("");
-				}
-			}
-			
-		}
+		
 	   } catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
