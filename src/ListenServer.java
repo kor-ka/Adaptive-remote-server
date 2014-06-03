@@ -57,6 +57,8 @@ public class ListenServer extends Thread {
 					System.out.println("a:" + a);
 					System.out.println("b:" + b);
 					
+					out.writeUTF("ok");
+					out.flush();
 
 					break;
 					

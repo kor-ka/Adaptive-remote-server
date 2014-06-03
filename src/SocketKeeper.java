@@ -21,33 +21,24 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 public class SocketKeeper {
 	  static int port;
    public static void main(String[] ar)    {
-	  
+	   ServerSocket ss;
+	   BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
        try {
     	  
-    	     System.out.println("Gimme a POOORT!");
-    	     BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
-    	     String portLine = null;
-    	   
-    	 portLine = keyboard.readLine();
-    	 try {
-				port = Integer.parseInt(portLine);
-				
-			} catch (Exception e) {
-				
-			}
-    	 while(port <= 1024){
-    		 System.out.println("R u kidding me? ");
-    		 System.out.println("Try again (by the way, the port number must be greater than 1024)");	
-    		 portLine = keyboard.readLine();    
+    	    
+    	 while(true){
+    		 
     		 try {
-				port = Integer.parseInt(portLine);
-				
+				port = 1025 + (int)(Math.random() * ((65535 - 1025) + 1));
+				ss = new ServerSocket(port); 
+				writeAdress(port);
+				break;
 			} catch (Exception e) {
 				
 			}
     	 }
-    	 writeAdress(port);
-    	 ServerSocket ss = new ServerSocket(port); 
+    	
+    	 
     	
     	 Qqueue q = new Qqueue();
     	 Results r = new Results();
@@ -116,7 +107,7 @@ public static void writeAdress(int port){
 		
 		//Рисуем в свинге
 		JFrame frame = new JFrame();
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(150,150);
         
        
