@@ -8,6 +8,7 @@ final static int wat =2;
 final static int click =3;
 final static int dndDown=4;
 final static int dndUp=5;
+final static int rclick =6;
 
 public String output;
 public String outputA;
@@ -25,13 +26,16 @@ public int outputPort;
 		} else if(input.contains("registerMe:") ){
 			outputPort =Integer.parseInt( input.substring(11, input.length()));
 			return register;
+		} else if(input.contains("rclick:") ){
+			
+			return rclick;
 		} else if(input.contains("click:") ){
 			
 			return click;
-		}else if(input.contains("dndDown:") ){
+		} else if(input.contains("dndDown:") ){
 			
 			return dndDown;
-		}else if(input.contains("dndUp:") ){
+		} else if(input.contains("dndUp:") ){
 			
 			return dndUp;
 		}

@@ -79,6 +79,21 @@ public class ListenServer extends Thread {
 			           
 					break;
 					
+				case protocol.rclick:
+					
+					try {
+						robot = new Robot();
+						 // LEFT CLICK
+			            robot.mousePress(InputEvent.BUTTON2_MASK);
+			            robot.mouseRelease(InputEvent.BUTTON2_MASK);
+					} catch (AWTException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					 
+			           
+					break;
+					
 				case protocol.dndDown:
 					
 					try {
