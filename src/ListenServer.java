@@ -83,9 +83,9 @@ public class ListenServer extends Thread {
 					
 					try {
 						robot = new Robot();
-						 // LEFT CLICK
-			            robot.mousePress(InputEvent.BUTTON2_MASK);
-			            robot.mouseRelease(InputEvent.BUTTON2_MASK);
+						 // R CLICK
+			            robot.mousePress(InputEvent.BUTTON3_MASK);
+			            robot.mouseRelease(InputEvent.BUTTON3_MASK);
 					} catch (AWTException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
