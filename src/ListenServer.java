@@ -132,15 +132,18 @@ public class ListenServer extends Thread {
 					case protocol.keyboard:
 					try {
 						robot = new Robot();
-						
-						if(!prtcl.outputChar.equals("bksps")){
+						char chr = prtcl.outputChar.charAt(0);
+						boolean isChrEnter = KeyEvent.getExtendedKeyCodeForChar(chr)==VK_ENTER;
+						if(!prtcl.outputChar.equals("bksps")&& !isChrEnter){
 							StringSelection stringSelection = new StringSelection (prtcl.outputChar);
 							Clipboard clpbrd = Toolkit.getDefaultToolkit ().getSystemClipboard ();
 							clpbrd.setContents (stringSelection, null);
 							
 							doType(VK_CONTROL, VK_V);
-						} else{
+						} else if (prtcl.outputChar.equals("bksps")){
 							doType(VK_BACK_SPACE);
+						} else if(isChrEnter){
+							doType(VK_ENTER);
 						}
 						
 						

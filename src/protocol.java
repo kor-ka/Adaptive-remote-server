@@ -41,10 +41,11 @@ public String outputChar;
 			
 			return dndUp;
 		}else if(input.contains("keyboard:") ){
-			String outputChars[] = input.split(":");
+			String outputChars[] = input.split("::");
 			outputChar = outputChars[1];
 			return keyboard;
 		}
+		
 		
 		return wat;
 	}
