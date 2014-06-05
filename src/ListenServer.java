@@ -1,6 +1,10 @@
 import java.awt.AWTException;
 import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -10,6 +14,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import static java.awt.event.KeyEvent.*;
 
 public class ListenServer extends Thread {
 	protected ServerSocket listenSocket;
@@ -124,7 +129,28 @@ public class ListenServer extends Thread {
 			           
 					break;
 					
-					
+					case protocol.keyboard:
+					try {
+						robot = new Robot();
+						
+						if(!prtcl.outputChar.equals("bksps")){
+							StringSelection stringSelection = new StringSelection (prtcl.outputChar);
+							Clipboard clpbrd = Toolkit.getDefaultToolkit ().getSystemClipboard ();
+							clpbrd.setContents (stringSelection, null);
+							
+							doType(VK_CONTROL, VK_V);
+						} else{
+							doType(VK_BACK_SPACE);
+						}
+						
+						
+						//robot.keyPress(Character.toUpperCase(prtcl.outputChar.charAt(0)));
+					} catch (AWTException e) {
+						
+						e.printStackTrace();
+					}
+						
+					break;
 
 				case protocol.register:
 					
@@ -197,5 +223,30 @@ public class ListenServer extends Thread {
 		}
 	}
 
-	
+	//Util
+	private void doType(int... keyCodes) {
+		try{
+			doType(keyCodes, 0, keyCodes.length);	
+		}catch(IllegalArgumentException e){
+			e.printStackTrace();
+		}
+        
+    }
+
+    private void doType(int[] keyCodes, int offset, int length) {
+        if (length == 0) {
+            return;
+        }
+        Robot robot;
+		try {
+			robot = new Robot();
+			robot.keyPress(keyCodes[offset]);
+	        doType(keyCodes, offset + 1, length - 1);
+	        robot.keyRelease(keyCodes[offset]);
+		} catch (AWTException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+    }
 }

@@ -9,11 +9,13 @@ final static int click =3;
 final static int dndDown=4;
 final static int dndUp=5;
 final static int rclick =6;
+final static int keyboard=7;
 
 public String output;
 public String outputA;
 public String outputB;
 public int outputPort;
+public String outputChar;
 	
 	public int processInput(String input){
 		
@@ -38,6 +40,10 @@ public int outputPort;
 		} else if(input.contains("dndUp:") ){
 			
 			return dndUp;
+		}else if(input.contains("keyboard:") ){
+			String outputChars[] = input.split(":");
+			outputChar = outputChars[1];
+			return keyboard;
 		}
 		
 		return wat;
