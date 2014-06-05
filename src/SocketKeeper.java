@@ -3,9 +3,14 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.Inet4Address;
+import java.net.Inet6Address;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 import javax.swing.ImageIcon;
@@ -75,14 +80,14 @@ public static void writeAdress(int port){
 		   
 		   
 		   
-		System.out.println("Host IP+Port: "+InetAddress.getLocalHost().getHostAddress()+":"+port);
+		System.out.println("Host IP+Port: "+getFirstNonLoopbackAddress(true,false).getLocalHost().getHostAddress()+":"+port);
 	
 		//Собираем QR
 		Hashtable<EncodeHintType, ErrorCorrectionLevel> hintMap = new Hashtable<EncodeHintType, ErrorCorrectionLevel>();
 		hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
 
 		QRCodeWriter qrCodeWriter = new QRCodeWriter();
-		BitMatrix bitMatrix = qrCodeWriter.encode(InetAddress.getLocalHost().getHostAddress()+":"+port, BarcodeFormat.QR_CODE, 100, 100, hintMap);
+		BitMatrix bitMatrix = qrCodeWriter.encode(getFirstNonLoopbackAddress(true,false).getLocalHost().getHostAddress()+":"+port, BarcodeFormat.QR_CODE, 100, 100, hintMap);
 		//Собираем картинку
 		
 		int matrixWidth = bitMatrix.getWidth();
@@ -124,7 +129,35 @@ public static void writeAdress(int port){
 		} catch (WriterException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
-	}
+	} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
    }
-	   
+	   //Utils
+private static InetAddress getFirstNonLoopbackAddress(boolean preferIpv4, boolean preferIPv6) throws SocketException {
+    Enumeration en = NetworkInterface.getNetworkInterfaces();
+    while (en.hasMoreElements()) {
+        NetworkInterface i = (NetworkInterface) en.nextElement();
+        for (Enumeration en2 = i.getInetAddresses(); en2.hasMoreElements();) {
+            InetAddress addr = (InetAddress) en2.nextElement();
+            if (!addr.isLoopbackAddress()) {
+                if (addr instanceof Inet4Address) {
+                    if (preferIPv6) {
+                        continue;
+                    }
+                    return addr;
+                }
+                if (addr instanceof Inet6Address) {
+                    if (preferIpv4) {
+                        continue;
+                    }
+                    return addr;
+                }
+            }
+        }
+    }
+    return null;
+}
+
 }
