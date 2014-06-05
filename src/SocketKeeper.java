@@ -80,14 +80,14 @@ public static void writeAdress(int port){
 		   
 		   
 		   
-		System.out.println("Host IP+Port: "+getFirstNonLoopbackAddress(true,false).getLocalHost().getHostAddress()+":"+port);
+		System.out.println("Host IP+Port: "+getFirstNonLoopbackAddress(true,false).getHostAddress()+":"+port);
 	
 		//Собираем QR
 		Hashtable<EncodeHintType, ErrorCorrectionLevel> hintMap = new Hashtable<EncodeHintType, ErrorCorrectionLevel>();
 		hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
 
 		QRCodeWriter qrCodeWriter = new QRCodeWriter();
-		BitMatrix bitMatrix = qrCodeWriter.encode(getFirstNonLoopbackAddress(true,false).getLocalHost().getHostAddress()+":"+port, BarcodeFormat.QR_CODE, 100, 100, hintMap);
+		BitMatrix bitMatrix = qrCodeWriter.encode(getFirstNonLoopbackAddress(true,false).getHostAddress()+":"+port, BarcodeFormat.QR_CODE, 100, 100, hintMap);
 		//Собираем картинку
 		
 		int matrixWidth = bitMatrix.getWidth();
@@ -123,10 +123,7 @@ public static void writeAdress(int port){
         frame.setVisible(true);
 		
 		
-	   } catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (WriterException e) {
+	   } catch (WriterException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	} catch (SocketException e) {
