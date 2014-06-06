@@ -134,16 +134,19 @@ public class ListenServer extends Thread {
 						robot = new Robot();
 						char chr = prtcl.outputChar.charAt(0);
 						boolean isChrEnter = KeyEvent.getExtendedKeyCodeForChar(chr)==VK_ENTER;
-						if(!prtcl.outputChar.equals("bksps")&& !isChrEnter){
+						 if (prtcl.outputChar.equals("bksps")){
+							doType(VK_BACK_SPACE);
+						}else if (prtcl.outputChar.equals("contextMenu")){
+							doType(VK_CONTEXT_MENU);
+						} else if(isChrEnter){
+							doType(VK_ENTER);
+							
+						}else{
 							StringSelection stringSelection = new StringSelection (prtcl.outputChar);
 							Clipboard clpbrd = Toolkit.getDefaultToolkit ().getSystemClipboard ();
 							clpbrd.setContents (stringSelection, null);
 							
 							doType(VK_CONTROL, VK_V);
-						} else if (prtcl.outputChar.equals("bksps")){
-							doType(VK_BACK_SPACE);
-						} else if(isChrEnter){
-							doType(VK_ENTER);
 						}
 						
 						
