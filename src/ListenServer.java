@@ -52,6 +52,8 @@ public class ListenServer extends Thread {
 				String line = null;
 				
 				Robot robot;
+				StringSelection stringSelection;
+				Clipboard clpbrd = Toolkit.getDefaultToolkit ().getSystemClipboard ();
 
 				line = in.readUTF();
 				System.out.println("Client say: " + line);
@@ -129,21 +131,30 @@ public class ListenServer extends Thread {
 			           
 					break;
 					
+					case protocol.launch:
+						stringSelection = new StringSelection (prtcl.outputToLounch);
+						clpbrd.setContents (stringSelection, null);
+						doType(VK_WINDOWS);
+						doType(VK_CONTROL, VK_V);
+						doType(VK_ENTER);
+						break;
+					
 					case protocol.keyboard:
 					try {
 						robot = new Robot();
 						char chr = prtcl.outputChar.charAt(0);
 						boolean isChrEnter = KeyEvent.getExtendedKeyCodeForChar(chr)==VK_ENTER;
+						boolean isChrSpace = KeyEvent.getExtendedKeyCodeForChar(chr)==VK_SPACE;
 						 if (prtcl.outputChar.equals("bksps")){
 							doType(VK_BACK_SPACE);
 						}else if (prtcl.outputChar.equals("contextMenu")){
 							doType(VK_CONTEXT_MENU);
 						} else if(isChrEnter){
-							doType(VK_ENTER);
-							
+							doType(VK_ENTER);							
+						}else if(isChrSpace){
+							doType(VK_SPACE);							
 						}else{
-							StringSelection stringSelection = new StringSelection (prtcl.outputChar);
-							Clipboard clpbrd = Toolkit.getDefaultToolkit ().getSystemClipboard ();
+							stringSelection = new StringSelection (prtcl.outputChar);							
 							clpbrd.setContents (stringSelection, null);
 							
 							doType(VK_CONTROL, VK_V);

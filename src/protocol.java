@@ -10,12 +10,14 @@ final static int dndDown=4;
 final static int dndUp=5;
 final static int rclick =6;
 final static int keyboard=7;
+final static int launch=8;
 
 public String output;
 public String outputA;
 public String outputB;
 public int outputPort;
 public String outputChar;
+public String outputToLounch;
 	
 	public int processInput(String input){
 		
@@ -44,6 +46,10 @@ public String outputChar;
 			String outputChars[] = input.split("::");
 			outputChar = outputChars[1];
 			return keyboard;
+		}else if(input.contains("launch:") ){
+			String outputStrings[] = input.split(":");
+			outputToLounch = outputStrings[1];
+			return launch;
 		}
 		
 		
