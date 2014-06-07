@@ -154,6 +154,18 @@ public class ListenServer extends Thread {
 						boolean isChrSpace = KeyEvent.getExtendedKeyCodeForChar(chr)==VK_SPACE;
 						 if (prtcl.outputChar.equals("bksps")){
 							doType(VK_BACK_SPACE);
+						}else if (prtcl.outputChar.equals("up")){
+							doType(VK_UP);
+						}else if (prtcl.outputChar.equals("down")){
+							doType(VK_DOWN);
+						}else if (prtcl.outputChar.equals("left")){
+							doType(VK_LEFT);
+						}else if (prtcl.outputChar.equals("right")){
+							doType(VK_RIGHT);
+						}else if (prtcl.outputChar.equals("esc")){
+							doType(VK_ESCAPE);
+						}else if (prtcl.outputChar.equals("enter")){
+							doType(VK_ENTER);
 						}else if (prtcl.outputChar.equals("contextMenu")){
 							doType(VK_CONTEXT_MENU);
 						} else if(isChrEnter){
