@@ -135,8 +135,15 @@ public class ListenServer extends Thread {
 						stringSelection = new StringSelection (prtcl.outputToLounch);
 						clpbrd.setContents (stringSelection, null);
 						doType(VK_WINDOWS);
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 						doType(VK_CONTROL, VK_V);
 						doType(VK_ENTER);
+						
 						break;
 					
 					case protocol.keyboard:
