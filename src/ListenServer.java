@@ -137,14 +137,16 @@ public class ListenServer extends Thread {
 						doType(VK_WINDOWS);
 					try {
 						Thread.sleep(100);
+						doType(VK_SLASH);
+						Thread.sleep(100);
+						doType(VK_BACK_SPACE);
+						doType(VK_CONTROL, VK_V);
+						doType(VK_ENTER);
 					} catch (InterruptedException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-						doType(VK_SLASH);
-						doType(VK_BACK_SPACE);
-						doType(VK_CONTROL, VK_V);
-						doType(VK_ENTER);
+						
 						
 						break;
 					
