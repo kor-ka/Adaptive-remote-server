@@ -141,6 +141,8 @@ public class ListenServer extends Thread {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+						doType(VK_SLASH);
+						doType(VK_BACK_SPACE);
 						doType(VK_CONTROL, VK_V);
 						doType(VK_ENTER);
 						
