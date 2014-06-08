@@ -136,8 +136,8 @@ public class ListenServer extends Thread {
 						clpbrd.setContents (stringSelection, null);
 						doType(VK_WINDOWS);
 					try {
-						Thread.sleep(200);
-						doType(VK_SLASH);
+						Thread.sleep(500);
+						doType(VK_1);
 						Thread.sleep(200);
 						doType(VK_BACK_SPACE);
 						doType(VK_CONTROL, VK_V);
