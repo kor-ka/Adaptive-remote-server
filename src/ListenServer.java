@@ -136,9 +136,9 @@ public class ListenServer extends Thread {
 						clpbrd.setContents (stringSelection, null);
 						doType(VK_WINDOWS);
 					try {
-						Thread.sleep(100);
+						Thread.sleep(200);
 						doType(VK_SLASH);
-						Thread.sleep(100);
+						Thread.sleep(200);
 						doType(VK_BACK_SPACE);
 						doType(VK_CONTROL, VK_V);
 						doType(VK_ENTER);
@@ -156,6 +156,9 @@ public class ListenServer extends Thread {
 						char chr = prtcl.outputChar.charAt(0);
 						boolean isChrEnter = KeyEvent.getExtendedKeyCodeForChar(chr)==VK_ENTER;
 						boolean isChrSpace = KeyEvent.getExtendedKeyCodeForChar(chr)==VK_SPACE;
+						if(prtcl.outputChar.length()>1){
+							isChrSpace=false;
+						}
 						 if (prtcl.outputChar.equals("bksps")){
 							doType(VK_BACK_SPACE);
 						}else if (prtcl.outputChar.equals("up")){
