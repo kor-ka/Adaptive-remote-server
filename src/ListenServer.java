@@ -163,6 +163,34 @@ public class ListenServer extends Thread {
 							doType(VK_BACK_SPACE);
 						}else if (prtcl.outputChar.equals("up")){
 							doType(VK_UP);
+						}else if (prtcl.outputChar.equals("ctrlz")){
+							doType(VK_CONTROL, VK_Z);
+						}else if (prtcl.outputChar.equals("ctrly")){
+							doType(VK_CONTROL, VK_Y);
+						}else if (prtcl.outputChar.equals("f1")){
+							doType(VK_F1);
+						}else if (prtcl.outputChar.equals("f2")){
+							doType(VK_F2);
+						}else if (prtcl.outputChar.equals("f3")){
+							doType(VK_F3);
+						}else if (prtcl.outputChar.equals("f4")){
+							doType(VK_F5);
+						}else if (prtcl.outputChar.equals("f5")){
+							doType(VK_F5);
+						}else if (prtcl.outputChar.equals("f6")){
+							doType(VK_F6);
+						}else if (prtcl.outputChar.equals("f7")){
+							doType(VK_F7);
+						}else if (prtcl.outputChar.equals("f8")){
+							doType(VK_F8);
+						}else if (prtcl.outputChar.equals("f9")){
+							doType(VK_F9);
+						}else if (prtcl.outputChar.equals("f10")){
+							doType(VK_F10);
+						}else if (prtcl.outputChar.equals("f11")){
+							doType(VK_F11);
+						}else if (prtcl.outputChar.equals("f12")){
+							doType(VK_F12);
 						}else if (prtcl.outputChar.equals("down")){
 							doType(VK_DOWN);
 						}else if (prtcl.outputChar.equals("left")){
