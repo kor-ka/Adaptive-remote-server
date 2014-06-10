@@ -202,7 +202,8 @@ public class ListenServer extends Thread {
 						}else if (prtcl.outputChar.equals("Alt+Enter")){
 							doType(VK_ALT, VK_ENTER);
 						}else if (prtcl.outputChar.equals("Alt+Tab")){
-							doType(VK_ALT, VK_TAB);
+							//OMG Thats HACK!
+							Runtime.getRuntime().exec("cmd /c"+"%windir%\\explorer.exe shell:::{3080F90E-D7AD-11D9-BD98-0000947B0257}");
 						}else if (prtcl.outputChar.equals("ctrl_shift_z")){
 							doType(VK_CONTROL, VK_SHIFT, VK_Z);
 						}else if (prtcl.outputChar.equals("f1")){
