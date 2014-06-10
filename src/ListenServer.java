@@ -167,6 +167,18 @@ public class ListenServer extends Thread {
 							doType(VK_CONTROL, VK_Z);
 						}else if (prtcl.outputChar.equals("ctrly")){
 							doType(VK_CONTROL, VK_Y);
+						}else if (prtcl.outputChar.equals("ctrlc")){
+							doType(VK_CONTROL, VK_C);
+						}else if (prtcl.outputChar.equals("ctrlv")){
+							doType(VK_CONTROL, VK_V);
+						}else if (prtcl.outputChar.equals("ctrla")){
+							doType(VK_CONTROL, VK_A);
+						}else if (prtcl.outputChar.equals("ctrlx")){
+							doType(VK_CONTROL, VK_X);
+						}else if (prtcl.outputChar.equals("ctrlp")){
+							doType(VK_CONTROL, VK_P);
+						}else if (prtcl.outputChar.equals("ctrl_shift_z")){
+							doType(VK_CONTROL, VK_SHIFT, VK_Z);
 						}else if (prtcl.outputChar.equals("f1")){
 							doType(VK_F1);
 						}else if (prtcl.outputChar.equals("f2")){
