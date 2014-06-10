@@ -177,6 +177,32 @@ public class ListenServer extends Thread {
 							doType(VK_CONTROL, VK_X);
 						}else if (prtcl.outputChar.equals("ctrlp")){
 							doType(VK_CONTROL, VK_P);
+						}else if (prtcl.outputChar.equals("Caps Lock")){
+							doType(VK_CAPS_LOCK);
+						}else if (prtcl.outputChar.equals("Num Lock")){
+							doType(VK_NUM_LOCK);
+						}else if (prtcl.outputChar.equals("Win")){
+							doType(VK_WINDOWS);
+						}else if (prtcl.outputChar.equals("Del")){
+							doType(VK_DELETE);
+						}else if (prtcl.outputChar.equals("Insert")){
+							doType(VK_INSERT);
+						}else if (prtcl.outputChar.equals("Home")){
+							doType(VK_HOME);
+						}else if (prtcl.outputChar.equals("End")){
+							doType(VK_END);
+						}else if (prtcl.outputChar.equals("Page Up")){
+							doType(VK_PAGE_UP);
+						}else if (prtcl.outputChar.equals("Page Down")){
+							doType(VK_PAGE_DOWN);
+						}else if (prtcl.outputChar.equals("Ctrl+S")){
+							doType(VK_CONTROL, VK_S);
+						}else if (prtcl.outputChar.equals("Ctrl+Alt+Del")){
+							doType(VK_CONTROL, VK_SHIFT, VK_ESCAPE);
+						}else if (prtcl.outputChar.equals("Alt+Enter")){
+							doType(VK_ALT, VK_ENTER);
+						}else if (prtcl.outputChar.equals("Alt+Tab")){
+							doType(VK_ALT, VK_TAB);
 						}else if (prtcl.outputChar.equals("ctrl_shift_z")){
 							doType(VK_CONTROL, VK_SHIFT, VK_Z);
 						}else if (prtcl.outputChar.equals("f1")){
