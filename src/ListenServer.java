@@ -9,18 +9,20 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Queue;
 
 public class ListenServer extends Thread {
 	protected ServerSocket listenSocket;
 	DataOutputStream out;
 	Socket socket;
 	ArrayList<String> clientIps;
-	Qqueue q;
-	Results r;
-	public ListenServer(ServerSocket listenSocket, Qqueue q, Results r) {
+	Queue<Pare> mQueue;
+	Results mResults;
+
+	public ListenServer(ServerSocket listenSocket, Queue<Pare> q, Results r) {
 		this.listenSocket = listenSocket;
-		this.q = q;
-		this.r = r;
+		this.mQueue = q;
+		this.mResults = r;
 	}
 
 	public void run() {
@@ -47,38 +49,44 @@ public class ListenServer extends Thread {
 
 				line = in.readUTF();
 				System.out.println("Client say: " + line);
-				protocol prtcl = new protocol();
+				Protocol prtcl = new Protocol();
 				switch (prtcl.processInput(line)) {
-				case protocol.ab:
-					int a= Integer.parseInt(prtcl.outputA);
-					int b= Integer.parseInt(prtcl.outputB);
-					q.put(new Pare(a, b));
+
+				case Protocol.AB:
+					int a = Integer.parseInt(prtcl.outputA);
+					int b = Integer.parseInt(prtcl.outputB);
+					synchronized (mQueue) {
+						mQueue.add(new Pare(a, b));
+					}
+					
 					System.out.println("a:" + a);
 					System.out.println("b:" + b);
-					
 
 					break;
 
-				case protocol.register:
-					
-						String ip = socket.getInetAddress().getHostAddress();
-						if(!clientIps.contains(ip+":"+prtcl.outputPort)){
-							System.out.println("rtying to register:"+ip+":"+prtcl.outputPort);
-					           
-							clientIps.add(ip+":"+prtcl.outputPort);
+				case Protocol.REGISTER:
 
-							out.writeUTF("registred");
-							out.flush();
+					String ip = socket.getInetAddress().getHostAddress();
+					if (!clientIps.contains(ip + ":" + prtcl.outputPort)) {
+						System.out.println("rtying to register:" + ip + ":"
+								+ prtcl.outputPort);
 
-								System.out.println("registred:"+ip+":"+prtcl.outputPort);
-						}else{
-							clientIps.remove(ip+":"+prtcl.outputPort);
-							out.writeUTF("unregistred");
-							out.flush();
+						clientIps.add(ip + ":" + prtcl.outputPort);
 
-								System.out.println("unregistred:"+ip+":"+prtcl.outputPort);
-						}
-						
+						out.writeUTF("registred");
+						out.flush();
+
+						System.out.println("registred:" + ip + ":"
+								+ prtcl.outputPort);
+					} else {
+						clientIps.remove(ip + ":" + prtcl.outputPort);
+						out.writeUTF("unregistred");
+						out.flush();
+
+						System.out.println("unregistred:" + ip + ":"
+								+ prtcl.outputPort);
+					}
+
 				}
 
 			} catch (IOException e) {
@@ -90,44 +98,43 @@ public class ListenServer extends Thread {
 
 	}
 	
-	public void say(String say){
-		for(String clientIpPort:clientIps){
-			 InputStream sin;
-			 String ip=null;
-				int port =-1;
-				int delimetr;
+	
+	public void say(String say) {
+		for (String clientIpPort : clientIps) {
+			
+			String ip = null;
+			int port = -1;
+			
 			try {
-				
-				
-				delimetr=clientIpPort.indexOf(":");
-				ip = clientIpPort.substring(0, delimetr);
-				port =Integer.parseInt( clientIpPort.substring(delimetr+1));
-				
-				
-				System.out.println("trying say:"+ip+":"+port);
-				
+
+				String clientIpAndPort[] = clientIpPort.split(":");
+				ip = clientIpAndPort[0];
+				port = Integer.parseInt(clientIpAndPort[1]);
+
+				System.out.println("trying say:" + ip + ":" + port);
+
 				InetAddress ipAddress = InetAddress.getByName(ip);
 				Socket clientSocket = new Socket(ipAddress, port);
-				sin = clientSocket.getInputStream();
-			
-	            OutputStream sout = clientSocket.getOutputStream();
-
-	            
-	            DataInputStream in = new DataInputStream(sin);
-	            DataOutputStream out = new DataOutputStream(sout);
-
-	            say =r.get();
-	                out.writeUTF("results:"+say); 
-	                out.flush(); 
-	                clientSocket.close();
-			} catch (IOException e) {
-				clientIps.remove(ip+":"+port);
 				
-				System.out.println("Ooops, that was exeption, i'l better remove it:"+ip+":"+port);
+
+				OutputStream sout = clientSocket.getOutputStream();
+
+				
+				DataOutputStream out = new DataOutputStream(sout);
+
+				say = mResults.get();
+				out.writeUTF("results:" + say);
+				out.flush();
+				clientSocket.close();
+			} catch (IOException e) {
+				clientIps.remove(ip + ":" + port);
+
+				System.out
+						.println("Ooops, that was exeption, i'l better remove it:"
+								+ ip + ":" + port);
 				e.printStackTrace();
 			}
 		}
 	}
 
-	
 }
