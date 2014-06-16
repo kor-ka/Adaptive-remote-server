@@ -262,6 +262,11 @@ public class ListenServer extends Thread {
 						
 					break;
 					
+				case protocol.commandLine:
+					
+					Runtime.getRuntime().exec("cmd /c"+prtcl.outputCommandLine);
+					break;
+					
 				case protocol.shortcut:
 					String[] buttons = prtcl.outputShortcut.split(" \\+ ");
 					int[] keyCodes = new int[buttons.length];

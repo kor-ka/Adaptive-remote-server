@@ -12,6 +12,7 @@ final static int rclick =6;
 final static int keyboard=7;
 final static int launch=8;
 final static int shortcut=9;
+final static int commandLine=10;
 
 public String output;
 public String outputA;
@@ -20,6 +21,7 @@ public int outputPort;
 public String outputChar;
 public String outputToLounch;
 public String outputShortcut;
+public String outputCommandLine;
 	
 	public int processInput(String input){
 		
@@ -56,6 +58,10 @@ public String outputShortcut;
 			String outputStrings[] = input.split("::");
 			outputShortcut = outputStrings[1];
 			return shortcut;
+		}else if(input.contains("commandLine:") ){
+			String outputStrings[] = input.split("::");
+			outputCommandLine = outputStrings[1];
+			return commandLine;
 		}
 		
 		

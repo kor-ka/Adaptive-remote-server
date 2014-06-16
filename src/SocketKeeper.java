@@ -52,7 +52,7 @@ public class SocketKeeper {
     	 new Thread(cntr).start();
     	
     	 final ListenServer ls = new ListenServer(ss, q, r);
-    	 new Thread(ls).start();
+    	new Thread(ls).start();
     	 while(true){
     		 final String say = keyboard.readLine();
 			 if(say !=null){
