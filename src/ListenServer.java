@@ -261,6 +261,15 @@ public class ListenServer extends Thread {
 					}
 						
 					break;
+					
+				case protocol.shortcut:
+					String[] buttons = prtcl.outputShortcut.split(" \\+ ");
+					int[] keyCodes = new int[buttons.length];
+					for (int i = 0; i < buttons.length; i++) {
+						keyCodes[i]=buttonStringToInt(buttons[i]);
+					}
+					doType(keyCodes);
+					break;
 
 				case protocol.register:
 					
@@ -358,5 +367,118 @@ public class ListenServer extends Thread {
 			e.printStackTrace();
 		}
         
+    }
+    
+    private int buttonStringToInt(String s){
+    	int inttoRetturn =1;
+    	if(s.length()==1){
+    		return KeyEvent.getExtendedKeyCodeForChar(s.charAt(0));
+    	}else{
+    		switch (s) {
+			case "Ctrl":
+				inttoRetturn = VK_CONTROL;
+				break;
+				
+			case "Alt":
+				inttoRetturn = VK_ALT;
+				break;
+			case "Shift":
+				inttoRetturn = VK_SHIFT;
+				break;
+			case "Tab":
+				inttoRetturn = VK_TAB;
+				break;
+			case "Win":
+				inttoRetturn = VK_WINDOWS;
+				break;
+			case "Del":
+				inttoRetturn = VK_DELETE;
+				break;
+			case "Ins":
+				inttoRetturn = VK_INSERT;
+				break;
+			case "Home":
+				inttoRetturn = VK_HOME;
+				break;
+			case "End":
+				inttoRetturn = VK_END;
+				break;
+			case "Page Up":
+				inttoRetturn = VK_PAGE_UP;
+				break;
+			case "Page Down":
+				inttoRetturn = VK_PAGE_DOWN;
+				break;
+			case "Esc":
+				inttoRetturn = VK_ESCAPE;
+				break;
+			case "Enter":
+				inttoRetturn = VK_ENTER;
+				break;
+			case "Space":
+				inttoRetturn = VK_SPACE;
+				break;
+			case "Backspace":
+				inttoRetturn = VK_BACK_SPACE;
+				break;
+			case "+":
+				inttoRetturn = VK_PLUS;
+				break;
+			case "-":
+				inttoRetturn = VK_MINUS;
+				break;
+			case "Up arrow":
+				inttoRetturn = VK_UP;
+				break;
+			case "Down arrow":
+				inttoRetturn = VK_DOWN;
+				break;
+			case "Left arrow":
+				inttoRetturn = VK_LEFT;
+				break;
+			case "Right arrow":
+				inttoRetturn = VK_RIGHT;
+				break;
+			case "F1":
+				inttoRetturn = VK_F1;
+				break;
+			case "F2":
+				inttoRetturn = VK_F2;
+				break;
+			case "F3":
+				inttoRetturn = VK_F3;
+				break;
+			case "F4":
+				inttoRetturn = VK_F4;
+				break;
+			case "F5":
+				inttoRetturn = VK_F5;
+				break;
+			case "F6":
+				inttoRetturn = VK_F6;
+				break;
+			case "F7":
+				inttoRetturn = VK_F7;
+				break;
+			case "F8":
+				inttoRetturn = VK_F8;
+				break;
+			case "F9":
+				inttoRetturn = VK_F9;
+				break;
+			case "F10":
+				inttoRetturn = VK_F10;
+				break;
+			case "F11":
+				inttoRetturn = VK_F11;
+				break;
+			case "F12":
+				inttoRetturn = VK_F12;
+				break;
+				
+			}
+    	}
+    
+    	return inttoRetturn;
     }
 }

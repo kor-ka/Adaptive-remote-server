@@ -11,6 +11,7 @@ final static int dndUp=5;
 final static int rclick =6;
 final static int keyboard=7;
 final static int launch=8;
+final static int shortcut=9;
 
 public String output;
 public String outputA;
@@ -18,6 +19,7 @@ public String outputB;
 public int outputPort;
 public String outputChar;
 public String outputToLounch;
+public String outputShortcut;
 	
 	public int processInput(String input){
 		
@@ -50,6 +52,10 @@ public String outputToLounch;
 			String outputStrings[] = input.split(":");
 			outputToLounch = outputStrings[1];
 			return launch;
+		}else if(input.contains("shortcut:") ){
+			String outputStrings[] = input.split("::");
+			outputShortcut = outputStrings[1];
+			return shortcut;
 		}
 		
 		
