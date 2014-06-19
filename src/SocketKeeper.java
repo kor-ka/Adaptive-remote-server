@@ -123,8 +123,8 @@ public static void writeAdress(int port){
         					"Adaptive remote.<br/>" +
         					"Для настройки вручную:"+"<br/>"+
         					"<br/>"+
-        					getFirstNonLoopbackAddress(true,false).getHostAddress()+":"+port+
-        					"<br/>"+"</center></html>");
+        					"IP:   "+getFirstNonLoopbackAddress(true,false).getHostAddress()+"<br/>"+
+        					"Port: "+port+"<br/>"+"</center></html>");
         labelSqare.setHorizontalTextPosition(JLabel.CENTER);
         labelSqare.setVerticalTextPosition(JLabel.BOTTOM);
         frame.add(labelSqare);
