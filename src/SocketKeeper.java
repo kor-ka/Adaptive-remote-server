@@ -97,7 +97,7 @@ public static void writeAdress(int port){
 
 		graphics.setColor(Color.white);
 		graphics.fillRect(0, 0, matrixWidth, matrixWidth);
-
+		
 		Color mainColor = new Color(51, 102, 153);
 		graphics.setColor(mainColor);
 		 
@@ -113,12 +113,20 @@ public static void writeAdress(int port){
 		//Рисуем в свинге
 		JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(150,150);
+        frame.setSize(170,250);
         
        
         ImageIcon icon = new ImageIcon(image);
-        JLabel labelSqare = new JLabel(icon);  
+        JLabel labelSqare = new JLabel(icon);
         
+        labelSqare.setText("<html>QR для настройки<br/>" +
+        					"Adaptive remote.<br/>" +
+        					"Для настройки вручную:"+"<br/>"+
+        					"<br/>"+
+        					getFirstNonLoopbackAddress(true,false).getHostAddress()+":"+port+
+        					"<br/>"+"</html>");
+        labelSqare.setHorizontalTextPosition(JLabel.CENTER);
+        labelSqare.setVerticalTextPosition(JLabel.BOTTOM);
         frame.add(labelSqare);
         frame.setVisible(true);
 		
