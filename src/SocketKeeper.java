@@ -119,12 +119,12 @@ public static void writeAdress(int port){
         ImageIcon icon = new ImageIcon(image);
         JLabel labelSqare = new JLabel(icon);
         
-        labelSqare.setText("<html>QR для настройки<br/>" +
+        labelSqare.setText("<html><center>QR для настройки<br/>" +
         					"Adaptive remote.<br/>" +
         					"Для настройки вручную:"+"<br/>"+
         					"<br/>"+
         					getFirstNonLoopbackAddress(true,false).getHostAddress()+":"+port+
-        					"<br/>"+"</html>");
+        					"<br/>"+"</center></html>");
         labelSqare.setHorizontalTextPosition(JLabel.CENTER);
         labelSqare.setVerticalTextPosition(JLabel.BOTTOM);
         frame.add(labelSqare);
