@@ -17,6 +17,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import org.w3c.dom.css.RGBColor;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
@@ -56,7 +58,9 @@ public class SocketKeeper {
     	 while(true){
     		 final String say = keyboard.readLine();
 			 if(say !=null){
+				
 				 writeAdress(port);
+				 
 				 new Thread(new Runnable(){
 						 public void run (){
 							 ls.say(say);
@@ -77,58 +81,60 @@ public class SocketKeeper {
 public static void writeAdress(int port){
 	   
 	   try {
-		   
-		   
-		   
-		System.out.println("Host IP+Port: "+getFirstNonLoopbackAddress(true,false).getHostAddress()+":"+port);
-	
-		//Собираем QR
-		Hashtable<EncodeHintType, ErrorCorrectionLevel> hintMap = new Hashtable<EncodeHintType, ErrorCorrectionLevel>();
-		hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+		
+			System.out.println("Host IP+Port: "+getFirstNonLoopbackAddress(true,false).getHostAddress()+":"+port);
+			
+			Hashtable<EncodeHintType, ErrorCorrectionLevel> hintMap = new Hashtable<EncodeHintType, ErrorCorrectionLevel>();
+			hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
 
-		QRCodeWriter qrCodeWriter = new QRCodeWriter();
-		BitMatrix bitMatrix = qrCodeWriter.encode(getFirstNonLoopbackAddress(true,false).getHostAddress()+":"+port, BarcodeFormat.QR_CODE, 100, 100, hintMap);
-		//Собираем картинку
-		
-		int matrixWidth = bitMatrix.getWidth();
-		BufferedImage image = new BufferedImage(matrixWidth, matrixWidth, BufferedImage.TYPE_INT_RGB);
-		image.createGraphics();
-		Graphics2D graphics = (Graphics2D) image.getGraphics();
+			QRCodeWriter qrCodeWriter = new QRCodeWriter();
+			BitMatrix bitMatrix = qrCodeWriter.encode(getFirstNonLoopbackAddress(true,false).getHostAddress()+":"+port, BarcodeFormat.QR_CODE, 170, 170, hintMap);
+			//Собираем картинку
+			
+			int matrixWidth = bitMatrix.getWidth();
+			BufferedImage image = new BufferedImage(matrixWidth, matrixWidth, BufferedImage.TYPE_INT_RGB);
+			image.createGraphics();
+			Graphics2D graphics = (Graphics2D) image.getGraphics();
 
-		graphics.setColor(Color.white);
-		graphics.fillRect(0, 0, matrixWidth, matrixWidth);
+			graphics.setColor(Color.white);
+			graphics.fillRect(0, 0, matrixWidth, matrixWidth);
+			
+			Color mainColor = new Color(1, 1, 1);
+			graphics.setColor(mainColor);
+			 
+			//Write Bit Matrix as image
+			for (int i = 0; i < matrixWidth; i++) {
+			    for (int j = 0; j < matrixWidth; j++) {
+			        if (bitMatrix.get(i, j)) {
+			            graphics.fillRect(i, j, 1, 1);
+			        }
+			    }
+			}
+			
+			//Рисуем в свинге
+			JFrame frame = new JFrame();
+	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	        frame.setSize(170,320);
+	        
+	       
+	        ImageIcon icon = new ImageIcon(image);
+	        JLabel labelSqare = new JLabel(icon);
+	        
+	        labelSqare.setText("<html><center>QR для настройки<br/>" +
+	        					"Adaptive remote.<br/>" +
+	        					"Для настройки вручную:"+"<br/>"+
+	        					"<br/>"+
+	        					"IP:   "+getFirstNonLoopbackAddress(true,false).getHostAddress()+"<br/>"+
+	        					"Port: "+port+"<br/>"+"</center></html>");
+	        labelSqare.setHorizontalTextPosition(JLabel.CENTER);
+	        labelSqare.setVerticalTextPosition(JLabel.BOTTOM);
+	        frame.add(labelSqare);
+	        frame.getContentPane().setBackground(Color.WHITE);
+	        frame.setIconImage(image);
+	        frame.setVisible(true);
+			
 		
-		Color mainColor = new Color(51, 102, 153);
-		graphics.setColor(mainColor);
-		 
-		//Write Bit Matrix as image
-		for (int i = 0; i < matrixWidth; i++) {
-		    for (int j = 0; j < matrixWidth; j++) {
-		        if (bitMatrix.get(i, j)) {
-		            graphics.fillRect(i, j, 1, 1);
-		        }
-		    }
-		}
 		
-		//Рисуем в свинге
-		JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(170,250);
-        
-       
-        ImageIcon icon = new ImageIcon(image);
-        JLabel labelSqare = new JLabel(icon);
-        
-        labelSqare.setText("<html><center>QR для настройки<br/>" +
-        					"Adaptive remote.<br/>" +
-        					"Для настройки вручную:"+"<br/>"+
-        					"<br/>"+
-        					"IP:   "+getFirstNonLoopbackAddress(true,false).getHostAddress()+"<br/>"+
-        					"Port: "+port+"<br/>"+"</center></html>");
-        labelSqare.setHorizontalTextPosition(JLabel.CENTER);
-        labelSqare.setVerticalTextPosition(JLabel.BOTTOM);
-        frame.add(labelSqare);
-        frame.setVisible(true);
 		
 		
 	   } catch (WriterException e) {
