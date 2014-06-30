@@ -3,6 +3,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
@@ -11,6 +12,9 @@ import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -121,13 +125,29 @@ public static void writeAdress(int port){
 	        ImageIcon icon = new ImageIcon(image);
 	        JLabel labelSqare = new JLabel(icon);
 	        
+	        
+	        File f = new File("%userprofile%/AppData/Roaming/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar/Google chrome.lnk");
+	        byte[] encoded;
+	        String s= "";
+			try {
+				encoded = Files.readAllBytes(Paths.get(System.getProperty("user.home")+ "/AppData/Roaming/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar/Google Play Музыка.lnk"));
+				
+				 s= new String(encoded, StandardCharsets.UTF_8);
+				 int start= s.indexOf(".ico");
+				 s=s.substring(start-150, start+4);
+				 
+			} catch (IOException e) {
+				e.printStackTrace();
+				
+			}
 	      
+	        
 	        labelSqare.setText("<html><center>QR для настройки<br/>" +
 	        					"Adaptive remote.<br/>" +
 	        					"Для настройки вручную:"+"<br/>"+
 	        					"<br/>"+
 	        					"IP:   "+getFirstNonLoopbackAddress(true,false).getHostAddress()+"<br/>"+
-	        					"Port: "+port+"<br/>"+"</center></html>");
+	        					"Port: "+port+"<br/>"+s+"</center></html>");
 	        labelSqare.setHorizontalTextPosition(JLabel.CENTER);
 	        labelSqare.setVerticalTextPosition(JLabel.BOTTOM);
 	        frame.add(labelSqare);
