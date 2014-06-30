@@ -13,6 +13,7 @@ final static int keyboard=7;
 final static int launch=8;
 final static int shortcut=9;
 final static int commandLine=10;
+final static int launchFromTaskBarList=11;
 
 public String output;
 public String outputA;
@@ -62,6 +63,9 @@ public String outputCommandLine;
 			String outputStrings[] = input.split("::");
 			outputCommandLine = outputStrings[1];
 			return commandLine;
+		}else if(input.contains("launchFromTaskBarList") ){
+			
+			return launchFromTaskBarList;
 		}
 		
 		

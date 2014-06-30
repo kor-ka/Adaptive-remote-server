@@ -7,6 +7,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -130,6 +131,23 @@ public class ListenServer extends Thread {
 					 
 			           
 					break;
+					
+					case protocol.launchFromTaskBarList:
+						String userHome = System.getProperty("user.home");  
+						File folder = new File(userHome+"/AppData/Roaming/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar");
+						File[] listOfFiles = folder.listFiles();
+							String s= "";
+						    for (int i = 0; i < listOfFiles.length; i++) {
+						      if (listOfFiles[i].isFile()&& !listOfFiles[i].getName().contains(".ini") && !(listOfFiles[i].getName().contains("(") && listOfFiles[i].getName().contains(")"))) {
+						    	 s+=listOfFiles[i].getName().replace(".lnk", "")+":";
+						        System.out.println("File " + listOfFiles[i].getName());
+						        
+						      }
+						      
+						    }
+						    out.writeUTF(s);
+						    out.flush();
+						break;
 					
 					case protocol.launch:
 						stringSelection = new StringSelection (prtcl.outputToLounch);

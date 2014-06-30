@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
@@ -120,6 +121,7 @@ public static void writeAdress(int port){
 	        ImageIcon icon = new ImageIcon(image);
 	        JLabel labelSqare = new JLabel(icon);
 	        
+	      
 	        labelSqare.setText("<html><center>QR для настройки<br/>" +
 	        					"Adaptive remote.<br/>" +
 	        					"Для настройки вручную:"+"<br/>"+
