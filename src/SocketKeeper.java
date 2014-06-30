@@ -125,29 +125,14 @@ public static void writeAdress(int port){
 	        ImageIcon icon = new ImageIcon(image);
 	        JLabel labelSqare = new JLabel(icon);
 	        
-	        
-	        File f = new File("%userprofile%/AppData/Roaming/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar/Google chrome.lnk");
-	        byte[] encoded;
-	        String s= "";
-			try {
-				encoded = Files.readAllBytes(Paths.get(System.getProperty("user.home")+ "/AppData/Roaming/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar/Google Play Музыка.lnk"));
-				
-				 s= new String(encoded, StandardCharsets.UTF_8);
-				 int start= s.indexOf(".ico");
-				 s=s.substring(start-150, start+4);
-				 
-			} catch (IOException e) {
-				e.printStackTrace();
-				
-			}
-	      
+	       
 	        
 	        labelSqare.setText("<html><center>QR для настройки<br/>" +
 	        					"Adaptive remote.<br/>" +
 	        					"Для настройки вручную:"+"<br/>"+
 	        					"<br/>"+
 	        					"IP:   "+getFirstNonLoopbackAddress(true,false).getHostAddress()+"<br/>"+
-	        					"Port: "+port+"<br/>"+s+"</center></html>");
+	        					"Port: "+port+"<br/>"+"</center></html>");
 	        labelSqare.setHorizontalTextPosition(JLabel.CENTER);
 	        labelSqare.setVerticalTextPosition(JLabel.BOTTOM);
 	        frame.add(labelSqare);

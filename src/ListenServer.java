@@ -1,10 +1,13 @@
 import java.awt.AWTException;
+import java.awt.Graphics;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -14,7 +17,16 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.filechooser.FileSystemView;
+
 import static java.awt.event.KeyEvent.*;
 
 public class ListenServer extends Thread {
@@ -137,6 +149,10 @@ public class ListenServer extends Thread {
 						File folder = new File(userHome+"/AppData/Roaming/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar");
 						File[] listOfFiles = folder.listFiles();
 							String s= "";
+							
+							 
+					        
+							
 						    for (int i = 0; i < listOfFiles.length; i++) {
 						      if (listOfFiles[i].isFile()&& !listOfFiles[i].getName().contains(".ini") && !(listOfFiles[i].getName().contains("(") && listOfFiles[i].getName().contains(")"))) {
 						    	 s+=listOfFiles[i].getName().replace(".lnk", "")+":";
@@ -145,8 +161,56 @@ public class ListenServer extends Thread {
 						      }
 						      
 						    }
+						    
 						    out.writeUTF(s);
 						    out.flush();
+						break;
+						
+					case protocol.getTaskBarIcons:
+						
+						        
+						        byte[] encoded;
+						        String exepath= "";
+						        
+								try {
+									
+									String userHome2 = System.getProperty("user.home");  
+									
+									encoded = Files.readAllBytes(Paths.get(userHome2+"/AppData/Roaming/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar/"+prtcl.output));
+									
+									exepath= new String(encoded, StandardCharsets.UTF_8);
+									 
+									 int start= exepath.indexOf("OS");
+									 exepath=exepath.substring(start+3);
+									 int stop= exepath.indexOf(".exe");
+									 exepath=exepath.substring(0, stop+4);
+									 Icon icon = FileSystemView.getFileSystemView().getSystemIcon(new File(userHome2+"/AppData/Roaming/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar/"+prtcl.output));
+									 BufferedImage bi = new BufferedImage(
+											    icon.getIconWidth(),
+											    icon.getIconHeight(),
+											    BufferedImage.TYPE_INT_RGB);
+											Graphics g = bi.createGraphics();
+											// paint the Icon to the BufferedImage.
+											icon.paintIcon(null, g, 0,0);
+											g.dispose();
+											
+											ByteArrayOutputStream baos = new ByteArrayOutputStream();
+											ImageIO.write(bi, "png", baos);
+											baos.toByteArray();
+
+											out.write(baos.toByteArray());
+										   
+									 
+								} catch (IOException e) {
+									e.printStackTrace();
+									
+								}
+						      
+						        
+						      
+								 out.flush();
+						    
+						    
 						break;
 					
 					case protocol.launch:

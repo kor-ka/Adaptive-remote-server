@@ -14,6 +14,7 @@ final static int launch=8;
 final static int shortcut=9;
 final static int commandLine=10;
 final static int launchFromTaskBarList=11;
+final static int getTaskBarIcons= 12;
 
 public String output;
 public String outputA;
@@ -23,6 +24,7 @@ public String outputChar;
 public String outputToLounch;
 public String outputShortcut;
 public String outputCommandLine;
+
 	
 	public int processInput(String input){
 		
@@ -66,6 +68,10 @@ public String outputCommandLine;
 		}else if(input.contains("launchFromTaskBarList") ){
 			
 			return launchFromTaskBarList;
+		}else if(input.contains("getTaskBarIcons") ){
+			String outputStrings[] = input.split("::");
+			output = outputStrings[1];
+			return getTaskBarIcons;
 		}
 		
 		
