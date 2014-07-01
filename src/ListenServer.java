@@ -22,9 +22,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import sun.awt.shell.ShellFolder; 
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.filechooser.FileSystemView;
 
 import static java.awt.event.KeyEvent.*;
@@ -184,7 +186,9 @@ public class ListenServer extends Thread {
 									 exepath=exepath.substring(start+3);
 									 int stop= exepath.indexOf(".exe");
 									 exepath=exepath.substring(0, stop+4);
-									 Icon icon = FileSystemView.getFileSystemView().getSystemIcon(new File(userHome2+"/AppData/Roaming/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar/"+prtcl.output));
+									 ShellFolder shellFolder = ShellFolder.getShellFolder(new File(userHome2+"/AppData/Roaming/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar/"+prtcl.output));      
+									 Icon icon = new ImageIcon(shellFolder.getIcon(true));  
+									 //Icon icon = FileSystemView.getFileSystemView().getSystemIcon(new File(userHome2+"/AppData/Roaming/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar/"+prtcl.output));
 									 BufferedImage bi = new BufferedImage(
 											    icon.getIconWidth(),
 											    icon.getIconHeight(),
