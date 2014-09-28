@@ -37,11 +37,12 @@ public class SocketKeeper {
 	   BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
        try {
     	  
-    	    
+    	 port = 1025;    
     	 while(true){
     		 
     		 try {
-				port = 1025 + (int)(Math.random() * ((65535 - 1025) + 1));
+				port += 1;//(int)(Math.random() * ((65535 - 1025) + 1));
+				if(port > 1031)port = 1025;
 				ss = new ServerSocket(port); 
 				writeAdress(port);
 				break;
@@ -57,7 +58,7 @@ public class SocketKeeper {
     	 
     	 final Counter cntr = new Counter(q,r);
     	 new Thread(cntr).start();
-    	
+    	 
     	 final ListenServer ls = new ListenServer(ss, q, r);
     	new Thread(ls).start();
     	 while(true){
