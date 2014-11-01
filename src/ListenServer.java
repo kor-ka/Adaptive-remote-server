@@ -80,8 +80,10 @@ public class ListenServer extends Thread {
 					q.put(new Pare(a, b));
 					System.out.println("a:" + a);
 					System.out.println("b:" + b);
-					
-					out.writeUTF("ok");
+
+                    java.net.InetAddress localMachine = java.net.InetAddress.getLocalHost();
+
+					out.writeUTF("ok"+localMachine.getHostName());
 					out.flush();
 
 					break;
@@ -465,109 +467,106 @@ public class ListenServer extends Thread {
     	if(s.length()==1){
     		return KeyEvent.getExtendedKeyCodeForChar(s.charAt(0));
     	}else{
-    		switch (s) {
-			case "Ctrl":
-				inttoRetturn = VK_CONTROL;
-				break;
-				
-			case "Alt":
-				inttoRetturn = VK_ALT;
-				break;
-			case "Shift":
-				inttoRetturn = VK_SHIFT;
-				break;
-			case "Tab":
-				inttoRetturn = VK_TAB;
-				break;
-			case "Win":
-				inttoRetturn = VK_WINDOWS;
-				break;
-			case "Del":
-				inttoRetturn = VK_DELETE;
-				break;
-			case "Ins":
-				inttoRetturn = VK_INSERT;
-				break;
-			case "Home":
-				inttoRetturn = VK_HOME;
-				break;
-			case "End":
-				inttoRetturn = VK_END;
-				break;
-			case "Page Up":
-				inttoRetturn = VK_PAGE_UP;
-				break;
-			case "Page Down":
-				inttoRetturn = VK_PAGE_DOWN;
-				break;
-			case "Esc":
-				inttoRetturn = VK_ESCAPE;
-				break;
-			case "Enter":
-				inttoRetturn = VK_ENTER;
-				break;
-			case "Space":
-				inttoRetturn = VK_SPACE;
-				break;
-			case "Backspace":
-				inttoRetturn = VK_BACK_SPACE;
-				break;
-			case "+":
-				inttoRetturn = VK_PLUS;
-				break;
-			case "-":
-				inttoRetturn = VK_MINUS;
-				break;
-			case "Up arrow":
-				inttoRetturn = VK_UP;
-				break;
-			case "Down arrow":
-				inttoRetturn = VK_DOWN;
-				break;
-			case "Left arrow":
-				inttoRetturn = VK_LEFT;
-				break;
-			case "Right arrow":
-				inttoRetturn = VK_RIGHT;
-				break;
-			case "F1":
-				inttoRetturn = VK_F1;
-				break;
-			case "F2":
-				inttoRetturn = VK_F2;
-				break;
-			case "F3":
-				inttoRetturn = VK_F3;
-				break;
-			case "F4":
-				inttoRetturn = VK_F4;
-				break;
-			case "F5":
-				inttoRetturn = VK_F5;
-				break;
-			case "F6":
-				inttoRetturn = VK_F6;
-				break;
-			case "F7":
-				inttoRetturn = VK_F7;
-				break;
-			case "F8":
-				inttoRetturn = VK_F8;
-				break;
-			case "F9":
-				inttoRetturn = VK_F9;
-				break;
-			case "F10":
-				inttoRetturn = VK_F10;
-				break;
-			case "F11":
-				inttoRetturn = VK_F11;
-				break;
-			case "F12":
-				inttoRetturn = VK_F12;
-				break;
-				
-			}
+            if (s.equals("Ctrl")) {
+                inttoRetturn = VK_CONTROL;
+
+            } else if (s.equals("Alt")) {
+                inttoRetturn = VK_ALT;
+
+            } else if (s.equals("Shift")) {
+                inttoRetturn = VK_SHIFT;
+
+            } else if (s.equals("Tab")) {
+                inttoRetturn = VK_TAB;
+
+            } else if (s.equals("Win")) {
+                inttoRetturn = VK_WINDOWS;
+
+            } else if (s.equals("Del")) {
+                inttoRetturn = VK_DELETE;
+
+            } else if (s.equals("Ins")) {
+                inttoRetturn = VK_INSERT;
+
+            } else if (s.equals("Home")) {
+                inttoRetturn = VK_HOME;
+
+            } else if (s.equals("End")) {
+                inttoRetturn = VK_END;
+
+            } else if (s.equals("Page Up")) {
+                inttoRetturn = VK_PAGE_UP;
+
+            } else if (s.equals("Page Down")) {
+                inttoRetturn = VK_PAGE_DOWN;
+
+            } else if (s.equals("Esc")) {
+                inttoRetturn = VK_ESCAPE;
+
+            } else if (s.equals("Enter")) {
+                inttoRetturn = VK_ENTER;
+
+            } else if (s.equals("Space")) {
+                inttoRetturn = VK_SPACE;
+
+            } else if (s.equals("Backspace")) {
+                inttoRetturn = VK_BACK_SPACE;
+
+            } else if (s.equals("+")) {
+                inttoRetturn = VK_PLUS;
+
+            } else if (s.equals("-")) {
+                inttoRetturn = VK_MINUS;
+
+            } else if (s.equals("Up arrow")) {
+                inttoRetturn = VK_UP;
+
+            } else if (s.equals("Down arrow")) {
+                inttoRetturn = VK_DOWN;
+
+            } else if (s.equals("Left arrow")) {
+                inttoRetturn = VK_LEFT;
+
+            } else if (s.equals("Right arrow")) {
+                inttoRetturn = VK_RIGHT;
+
+            } else if (s.equals("F1")) {
+                inttoRetturn = VK_F1;
+
+            } else if (s.equals("F2")) {
+                inttoRetturn = VK_F2;
+
+            } else if (s.equals("F3")) {
+                inttoRetturn = VK_F3;
+
+            } else if (s.equals("F4")) {
+                inttoRetturn = VK_F4;
+
+            } else if (s.equals("F5")) {
+                inttoRetturn = VK_F5;
+
+            } else if (s.equals("F6")) {
+                inttoRetturn = VK_F6;
+
+            } else if (s.equals("F7")) {
+                inttoRetturn = VK_F7;
+
+            } else if (s.equals("F8")) {
+                inttoRetturn = VK_F8;
+
+            } else if (s.equals("F9")) {
+                inttoRetturn = VK_F9;
+
+            } else if (s.equals("F10")) {
+                inttoRetturn = VK_F10;
+
+            } else if (s.equals("F11")) {
+                inttoRetturn = VK_F11;
+
+            } else if (s.equals("F12")) {
+                inttoRetturn = VK_F12;
+
+            }
     	}
     
     	return inttoRetturn;
