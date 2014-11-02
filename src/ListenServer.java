@@ -7,13 +7,7 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -28,6 +22,12 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.filechooser.FileSystemView;
+
+
+import com.sun.jna.Native;
+import com.sun.jna.Pointer;
+import com.sun.jna.platform.win32.WinDef.HWND;
+import com.sun.jna.ptr.PointerByReference;
 
 import static java.awt.event.KeyEvent.*;
 
@@ -81,15 +81,11 @@ public class ListenServer extends Thread {
 					System.out.println("a:" + a);
 					System.out.println("b:" + b);
 
-                    java.net.InetAddress localMachine = java.net.InetAddress.getLocalHost();
-
-					out.writeUTF("ok"+localMachine.getHostName());
-					out.flush();
+                    replyServerNameAndProcess(out);
 
 					break;
 					
 				case protocol.click:
-					
 					try {
 						robot = new Robot();
 						 // LEFT CLICK
@@ -99,8 +95,7 @@ public class ListenServer extends Thread {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					 
-			           
+                    replyServerNameAndProcess(out);
 					break;
 					
 				case protocol.rclick:
@@ -114,8 +109,8 @@ public class ListenServer extends Thread {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					 
-			           
+
+                    replyServerNameAndProcess(out);
 					break;
 					
 				case protocol.dndDown:
@@ -129,8 +124,8 @@ public class ListenServer extends Thread {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					 
-			           
+
+                    replyServerNameAndProcess(out);
 					break;
 					
 					case protocol.dndUp:
@@ -144,8 +139,8 @@ public class ListenServer extends Thread {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					 
-			           
+
+                    replyServerNameAndProcess(out);
 					break;
 					
 					case protocol.launchFromTaskBarList:
@@ -234,8 +229,8 @@ public class ListenServer extends Thread {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-						
-						
+
+                        replyServerNameAndProcess(out);
 						break;
 					
 					case protocol.keyboard:
@@ -347,12 +342,13 @@ public class ListenServer extends Thread {
 						
 						e.printStackTrace();
 					}
-						
+                    replyServerNameAndProcess(out);
 					break;
 					
 				case protocol.commandLine:
 					
 					Runtime.getRuntime().exec("cmd /c"+prtcl.outputCommandLine);
+                    replyServerNameAndProcess(out);
 					break;
 					
 				case protocol.shortcut:
@@ -362,6 +358,7 @@ public class ListenServer extends Thread {
 						keyCodes[i]=buttonStringToInt(buttons[i]);
 					}
 					doType(keyCodes);
+                    replyServerNameAndProcess(out);
 					break;
 
 				case protocol.register:
@@ -395,8 +392,38 @@ public class ListenServer extends Thread {
 		}
 
 	}
-	
-	public void say(String say){
+
+    private void replyServerNameAndProcess(final DataOutputStream out) throws IOException {
+        final InetAddress localMachine = InetAddress.getLocalHost();
+
+
+        try {
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(100);
+
+                    out.writeUTF("ok"+localMachine.getHostName()+"<process>"+getActiveWindowProccessName());
+                    out.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
+        }catch (UnsatisfiedLinkError e){
+            e.printStackTrace();
+        }catch (NoClassDefFoundError e){
+            e.printStackTrace();
+        }
+    }
+
+    public void say(String say){
 		for(String clientIpPort:clientIps){
 			 InputStream sin;
 			 String ip=null;
@@ -570,5 +597,81 @@ public class ListenServer extends Thread {
     	}
     
     	return inttoRetturn;
+    }
+
+    //UTIL
+
+    //get win process
+    private static final int MAX_TITLE_LENGTH = 1024;
+
+    private String getActiveWindowProccessName(){
+        if(OSValidator.isWindows()){
+            char[] buffer = new char[MAX_TITLE_LENGTH * 2];
+            User32DLL.GetWindowTextW(User32DLL.GetForegroundWindow(), buffer, MAX_TITLE_LENGTH);
+            System.out.println("Active window title: " + Native.toString(buffer));
+
+            PointerByReference pointer = new PointerByReference();
+            User32DLL.GetWindowThreadProcessId(User32DLL.GetForegroundWindow(), pointer);
+            Pointer process = Kernel32.OpenProcess(Kernel32.PROCESS_QUERY_INFORMATION | Kernel32.PROCESS_VM_READ, false, pointer.getValue());
+            Psapi.GetModuleBaseNameW(process, null, buffer, MAX_TITLE_LENGTH);
+            return Native.toString(buffer).replace(".exe", "");
+        }else if(OSValidator.isUnix()){
+            try {
+                //xprop -id `xprop -root | grep "_NET_ACTIVE_WINDOW(WINDOW)" | awk '{print $5}'` | grep "WM_CLASS(STRING)"
+                Process p = Runtime.getRuntime().exec("xdotool getwindowfocus getwindowname");
+
+                InputStream stderr = p.getErrorStream();
+                InputStreamReader isr2 = new InputStreamReader(stderr);
+                BufferedReader br2 = new BufferedReader(isr2);
+                String line2 = null;
+                System.out.println("<ERROR>");
+                while ( (line2= br2.readLine()) != null)
+                    System.out.println(line2);
+                System.out.println("</ERROR>");
+
+
+
+                String toRet ="";
+                InputStream stdin = p.getInputStream();
+                InputStreamReader isr = new InputStreamReader(stdin);
+                BufferedReader br = new BufferedReader(isr);
+                String line = null;
+                System.out.println("<OUTPUT>");
+                while ( (line = br.readLine()) != null){
+                    System.out.println(line);
+                    toRet+=line;
+                }
+
+                System.out.println("</OUTPUT>");
+                return (toRet.lastIndexOf(" - ")!=-1)?toRet.substring(toRet.lastIndexOf(" - ")+3):toRet;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "";
+        }else{
+            return "";
+        }
+
+    }
+
+
+    static class Psapi {
+        static { Native.register("psapi"); }
+        public static native int GetModuleBaseNameW(Pointer hProcess, Pointer hmodule, char[] lpBaseName, int size);
+    }
+
+    static class Kernel32 {
+        static { Native.register("kernel32"); }
+        public static int PROCESS_QUERY_INFORMATION = 0x0400;
+        public static int PROCESS_VM_READ = 0x0010;
+        public static native int GetLastError();
+        public static native Pointer OpenProcess(int dwDesiredAccess, boolean bInheritHandle, Pointer pointer);
+    }
+
+    static class User32DLL {
+        static { Native.register("user32"); }
+        public static native int GetWindowThreadProcessId(HWND hWnd, PointerByReference pref);
+        public static native HWND GetForegroundWindow();
+        public static native int GetWindowTextW(HWND hWnd, char[] lpString, int nMaxCount);
     }
 }
