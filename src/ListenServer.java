@@ -16,7 +16,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import sun.awt.shell.ShellFolder; 
+
+import com.sun.jna.platform.win32.Kernel32;
+import com.sun.jna.platform.win32.User32;
+import com.sun.jna.platform.win32.WinNT;
+import com.sun.jna.ptr.IntByReference;
+import com.sun.jna.win32.StdCallLibrary;
+import sun.awt.shell.ShellFolder;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
@@ -606,15 +612,50 @@ public class ListenServer extends Thread {
 
     private String getActiveWindowProccessName(){
         if(OSValidator.isWindows()){
+            /*
             char[] buffer = new char[MAX_TITLE_LENGTH * 2];
             User32DLL.GetWindowTextW(User32DLL.GetForegroundWindow(), buffer, MAX_TITLE_LENGTH);
             System.out.println("Active window title: " + Native.toString(buffer));
 
+
+            char[] buffer2 = new char[MAX_TITLE_LENGTH * 2];
             PointerByReference pointer = new PointerByReference();
             User32DLL.GetWindowThreadProcessId(User32DLL.GetForegroundWindow(), pointer);
             Pointer process = Kernel32.OpenProcess(Kernel32.PROCESS_QUERY_INFORMATION | Kernel32.PROCESS_VM_READ, false, pointer.getValue());
-            Psapi.GetModuleBaseNameW(process, null, buffer, MAX_TITLE_LENGTH);
-            return Native.toString(buffer).replace(".exe", "");
+
+            Psapi.GetModuleBaseNameW(process, null, buffer2, MAX_TITLE_LENGTH);
+            System.out.println("Active window process: " + Native.toString(buffer2));
+            return Native.toString(buffer2).replace(".exe", "").replace(".EXE", "");
+            */
+            PsApi psapi = (PsApi) Native.loadLibrary("psapi", PsApi.class);
+            HWND focusedWindow = User32.INSTANCE.GetForegroundWindow();
+            byte[] name = new byte[2048];
+
+            IntByReference pid = new IntByReference();
+            User32.INSTANCE.GetWindowThreadProcessId(focusedWindow, pid);
+
+            WinNT.HANDLE process = Kernel32.INSTANCE.OpenProcess(0x0400 | 0x0010, false, pid.getValue());
+            /*
+            psapi.GetModuleFileNameExA(process, null, name, 2048);
+            String nameString= Native.toString(name);
+            System.out.println(1+nameString);
+
+            psapi.GetModuleFileNameExW(process, null, name, 2048);
+            nameString= Native.toString(name);
+            System.out.println(2+nameString);
+
+
+            psapi.GetProcessImageFileNameW(process, name, 2048);
+            nameString= Native.toString(name);
+            System.out.println(3+nameString);
+            */
+            psapi.GetProcessImageFileNameA(process, name, 2048);
+            String nameString= Native.toString(name);
+            System.out.println(nameString);
+
+            return  nameString.substring(nameString.lastIndexOf("\\")+1).replace(".exe", "").replace(".EXE", "");
+            //<----------
+
         }else if(OSValidator.isUnix()){
             try {
                 //xprop -id `xprop -root | grep "_NET_ACTIVE_WINDOW(WINDOW)" | awk '{print $5}'` | grep "WM_CLASS(STRING)"
@@ -654,12 +695,30 @@ public class ListenServer extends Thread {
 
     }
 
-
+/*
     static class Psapi {
         static { Native.register("psapi"); }
         public static native int GetModuleBaseNameW(Pointer hProcess, Pointer hmodule, char[] lpBaseName, int size);
+
+    }
+*/
+
+    public interface PsApi extends StdCallLibrary {
+
+        int GetModuleFileNameExA(WinNT.HANDLE process, WinNT.HANDLE module ,
+                                 byte[] name, int i);
+        int GetModuleFileNameExW(WinNT.HANDLE process, WinNT.HANDLE module ,
+                                 byte[] name, int i);
+
+        int GetProcessImageFileNameW(WinNT.HANDLE hProcess, byte[] lpImageFileName,
+                                    int nSize);
+        int GetProcessImageFileNameA(WinNT.HANDLE hProcess, byte[] lpImageFileName,
+                                     int nSize);
+
     }
 
+
+    /*
     static class Kernel32 {
         static { Native.register("kernel32"); }
         public static int PROCESS_QUERY_INFORMATION = 0x0400;
@@ -674,4 +733,5 @@ public class ListenServer extends Thread {
         public static native HWND GetForegroundWindow();
         public static native int GetWindowTextW(HWND hWnd, char[] lpString, int nMaxCount);
     }
+    */
 }
