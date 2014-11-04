@@ -493,6 +493,7 @@ public class ListenServer extends Thread {
 			robot.keyPress(keyCodes[offset]);
 	        doType(keyCodes, offset + 1, length - 1);
 	        robot.keyRelease(keyCodes[offset]);
+
 		} catch (AWTException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -522,7 +523,13 @@ public class ListenServer extends Thread {
                     inttoRetturn = VK_WINDOWS;
                 }else if(OSValidator.isUnix()){
                     //Still not workking...
-                    inttoRetturn = 0xffec;
+                    inttoRetturn = VK_WINDOWS;
+                    //inttoRetturn = 0x020C;
+                    //inttoRetturn = 0xff85;
+                    //inttoRetturn = 0xff86;
+                    //inttoRetturn = 0x00ce;
+
+                    System.out.println(inttoRetturn);
                 }
 
 
@@ -695,7 +702,7 @@ public class ListenServer extends Thread {
                 }
 
                 System.out.println("</OUTPUT>");
-                return (toRet.lastIndexOf(" - ")!=-1)?toRet.substring(toRet.lastIndexOf(" - ")+3):toRet;
+                return (toRet.lastIndexOf(" - ")!=-1)?toRet.substring(toRet.lastIndexOf(" - ")+3):"nautilus";
             } catch (IOException e) {
                 e.printStackTrace();
             }
