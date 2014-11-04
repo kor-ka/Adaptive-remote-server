@@ -352,9 +352,14 @@ public class ListenServer extends Thread {
 					break;
 					
 				case protocol.commandLine:
-					
-					Runtime.getRuntime().exec("cmd /c"+prtcl.outputCommandLine);
+
+                    if(OSValidator.isWindows()){
+                        Runtime.getRuntime().exec("cmd /c"+prtcl.outputCommandLine);
+                    }else if(OSValidator.isUnix()){
+                        Runtime.getRuntime().exec(prtcl.outputCommandLine);
+                    }
                     replyServerNameAndProcess(out);
+
 					break;
 					
 				case protocol.shortcut:
