@@ -518,7 +518,13 @@ public class ListenServer extends Thread {
                 inttoRetturn = VK_TAB;
 
             } else if (s.equals("Win")) {
-                inttoRetturn = VK_WINDOWS;
+                if(OSValidator.isWindows()){
+                    inttoRetturn = VK_WINDOWS;
+                }else if(OSValidator.isUnix()){
+                    //Still not workking...
+                    inttoRetturn = 0xffec;
+                }
+
 
             } else if (s.equals("Del")) {
                 inttoRetturn = VK_DELETE;
