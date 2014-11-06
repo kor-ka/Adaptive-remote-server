@@ -7,9 +7,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45b1ef8b-cd52-4084-b3b9-02d813e404a2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Counter.java" afterPath="$PROJECT_DIR$/src/Counter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ListenServer.java" afterPath="$PROJECT_DIR$/src/ListenServer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SST.iml" afterPath="$PROJECT_DIR$/SST.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/commons-vfs2-2.0.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/jna-4.1.0.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/jna-platform-4.1.0.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/util/WindowsShortcut.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SST.iws" />
@@ -421,7 +422,11 @@
       <created>1415131166938</created>
       <updated>1415131166938</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="launchAppFromTaskBar -&gt; alt tab">
+      <created>1415307451220</created>
+      <updated>1415307451220</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -472,7 +477,8 @@
     <MESSAGE value="add contextButtons" />
     <MESSAGE value="ubuntu working cmd" />
     <MESSAGE value="ubuntu working super btn (progress...)" />
-    <option name="LAST_COMMIT_MESSAGE" value="ubuntu working super btn (progress...)" />
+    <MESSAGE value="launchAppFromTaskBar -&gt; alt tab" />
+    <option name="LAST_COMMIT_MESSAGE" value="launchAppFromTaskBar -&gt; alt tab" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
