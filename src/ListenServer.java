@@ -15,7 +15,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.sun.jna.platform.win32.Kernel32;
 import com.sun.jna.platform.win32.User32;
@@ -23,6 +25,7 @@ import com.sun.jna.platform.win32.WinNT;
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.win32.StdCallLibrary;
 import sun.awt.shell.ShellFolder;
+import util.WindowsShortcut;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
@@ -30,8 +33,11 @@ import javax.swing.ImageIcon;
 import javax.swing.filechooser.FileSystemView;
 
 
+
+
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
+import com.sun.jna.Structure;
 import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.ptr.PointerByReference;
 
@@ -150,46 +156,63 @@ public class ListenServer extends Thread {
 					break;
 					
 					case protocol.launchFromTaskBarList:
-						String userHome = System.getProperty("user.home");  
-						File folder = new File(userHome+"/AppData/Roaming/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar");
-						File[] listOfFiles = folder.listFiles();
-							String s= "";
-							
-							 
-					        
-							
-						    for (int i = 0; i < listOfFiles.length; i++) {
-						      if (listOfFiles[i].isFile()&& !listOfFiles[i].getName().contains(".ini") && !(listOfFiles[i].getName().contains("(") && listOfFiles[i].getName().contains(")"))) {
-						    	 s+=listOfFiles[i].getName().replace(".lnk", "")+":";
-						        System.out.println("File " + listOfFiles[i].getName());
-						        
-						      }
-						      
-						    }
-						    
-						    out.writeUTF(s);
+
+                        if(OSValidator.isWindows()){
+                            String userHome = System.getProperty("user.home");
+                            File folder = new File(userHome+"/AppData/Roaming/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar");
+                            File[] listOfFiles = folder.listFiles();
+
+                            List<WindowInfo> windows = getWindowsProcessesTitles();
+                            ArrayList<String> processes = new ArrayList<String>();
+                            for (WindowInfo w:windows){
+                                processes.add(w.process);
+                            }
+
+
+                            String s= "";
+                            for (int i = 0; i < listOfFiles.length; i++) {
+                                if (listOfFiles[i].isFile()&& !listOfFiles[i].getName().contains(".ini") && !(listOfFiles[i].getName().contains("(") && listOfFiles[i].getName().contains(")"))) {
+                                    if(!processes.contains(new WindowsShortcut(listOfFiles[i]).getRealFilename()))s+=listOfFiles[i].getName().replace(".lnk", "")+"<split1>";
+                                    System.out.println("File " + listOfFiles[i].getName());
+
+                                }
+
+                            }
+                            for (WindowInfo w:windows){
+                                if(w.process!=null&&!w.title.isEmpty()&&!w.title.equals(""))s+=w.process+"<split2>"+w.title+"<split1>";
+                            }
+
+                            out.writeUTF(s);
+                        }
+
 						    out.flush();
 						break;
 						
 					case protocol.getTaskBarIcons:
 						
-						        
-						        byte[] encoded;
-						        String exepath= "";
-						        
+						       
 								try {
 									
 									String userHome2 = System.getProperty("user.home");  
 									
-									encoded = Files.readAllBytes(Paths.get(userHome2+"/AppData/Roaming/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar/"+prtcl.output));
+									File f = new File(userHome2+"/AppData/Roaming/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar/"+prtcl.output);
+									ShellFolder shellFolder;
+									if(f.exists()){
+										WindowsShortcut lnk = new WindowsShortcut(f);	
+										/*
+										if(lnk.getRealFilename().length()>1){
+											shellFolder = ShellFolder.getShellFolder(new File(lnk.getRealFilename()));
+										}else{
+											shellFolder = ShellFolder.getShellFolder(f);
+										}
+										*/
+										shellFolder = ShellFolder.getShellFolder(f);
+										
+									}else{
+										String[] exepath = prtcl.output.split("<split1>");
+										shellFolder = ShellFolder.getShellFolder(new File(exepath[0].replace(".lnk", "").replace("\\Device\\HarddiskVolume2", "C:").replace("\\Device\\HarddiskVolume3", "D:")));
+									}
 									
-									exepath= new String(encoded, StandardCharsets.UTF_8);
-									 
-									 int start= exepath.indexOf("OS");
-									 exepath=exepath.substring(start+3);
-									 int stop= exepath.indexOf(".exe");
-									 exepath=exepath.substring(0, stop+4);
-									 ShellFolder shellFolder = ShellFolder.getShellFolder(new File(userHome2+"/AppData/Roaming/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar/"+prtcl.output));      
 									 Icon icon = new ImageIcon(shellFolder.getIcon(true));  
 									 //Icon icon = FileSystemView.getFileSystemView().getSystemIcon(new File(userHome2+"/AppData/Roaming/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar/"+prtcl.output));
 									 BufferedImage bi = new BufferedImage(
@@ -211,6 +234,9 @@ public class ListenServer extends Thread {
 								} catch (IOException e) {
 									e.printStackTrace();
 									
+								} catch (Exception e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
 								}
 						      
 						        
@@ -398,7 +424,9 @@ public class ListenServer extends Thread {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				
-			}
+			} catch ( ParseException e){
+                e.printStackTrace();
+            }
 
 		}
 
@@ -646,12 +674,13 @@ public class ListenServer extends Thread {
             return Native.toString(buffer2).replace(".exe", "").replace(".EXE", "");
             */
             PsApi psapi = (PsApi) Native.loadLibrary("psapi", PsApi.class);
-            HWND focusedWindow = User32.INSTANCE.GetForegroundWindow();
+            HWND focusedWindow = com.sun.jna.platform.win32.User32.INSTANCE.GetForegroundWindow();
+            
             byte[] name = new byte[2048];
 
             IntByReference pid = new IntByReference();
-            User32.INSTANCE.GetWindowThreadProcessId(focusedWindow, pid);
-
+            com.sun.jna.platform.win32.User32.INSTANCE.GetWindowThreadProcessId(focusedWindow, pid);
+            
             WinNT.HANDLE process = Kernel32.INSTANCE.OpenProcess(0x0400 | 0x0010, false, pid.getValue());
             /*
             psapi.GetModuleFileNameExA(process, null, name, 2048);
@@ -712,6 +741,8 @@ public class ListenServer extends Thread {
         }
 
     }
+    
+    //WIN STAFF
 
 /*
     static class Psapi {
@@ -721,6 +752,47 @@ public class ListenServer extends Thread {
     }
 */
 
+    public List<WindowInfo> getWindowsProcessesTitles(){
+    	 final List<WindowInfo> inflList = new ArrayList<WindowInfo>();
+    	    final List<Integer> order = new ArrayList<Integer>();
+    	    int top = User32.instance.GetTopWindow(0);
+    	    while (top!=0) {
+    	        order.add(top);
+    	        top = User32.instance.GetWindow(top, User32.GW_HWNDNEXT);
+    	    }
+    	    User32.instance.EnumWindows(new WndEnumProc()
+    	    {
+    	        public boolean callback(int hWnd, int lParam)
+    	        {
+    	        if (User32.instance.IsWindowVisible(hWnd)) {
+    	            
+    	            
+    	                byte[] buffer = new byte[1024];
+    	                byte[] name = new byte[2048];
+    	                
+    	                IntByReference pid = new IntByReference();
+    	                PsApi psapi = (PsApi) Native.loadLibrary("psapi", PsApi.class);
+    	                User32.instance.GetWindowThreadProcessId(hWnd, pid);    	                
+    	                WinNT.HANDLE process = Kernel32.INSTANCE.OpenProcess(0x0400 | 0x0010, false, pid.getValue());    	                
+    	                psapi.GetProcessImageFileNameA(process, name, 2048);
+    	                String nameString= Native.toString(name);
+    	                
+    	                User32.instance.GetWindowTextA(hWnd, buffer, buffer.length);
+    	                String title = Native.toString(buffer, "CP1251");
+    	                inflList.add(new WindowInfo(hWnd, title, nameString));
+    	            
+    	        }
+    	        return true;
+    	    }
+    	    }, 0);
+    	    
+    	    for (WindowInfo w : inflList) {
+    	    System.out.println(w);
+    	    }
+    	    
+    	   return inflList;
+    }
+    
     public interface PsApi extends StdCallLibrary {
 
         int GetModuleFileNameExA(WinNT.HANDLE process, WinNT.HANDLE module ,
@@ -735,21 +807,38 @@ public class ListenServer extends Thread {
 
     }
 
-
-    /*
-    static class Kernel32 {
-        static { Native.register("kernel32"); }
-        public static int PROCESS_QUERY_INFORMATION = 0x0400;
-        public static int PROCESS_VM_READ = 0x0010;
-        public static native int GetLastError();
-        public static native Pointer OpenProcess(int dwDesiredAccess, boolean bInheritHandle, Pointer pointer);
+    public static interface WndEnumProc extends StdCallLibrary.StdCallCallback {
+        boolean callback (int hWnd, int lParam);
     }
 
-    static class User32DLL {
-        static { Native.register("user32"); }
-        public static native int GetWindowThreadProcessId(HWND hWnd, PointerByReference pref);
-        public static native HWND GetForegroundWindow();
-        public static native int GetWindowTextW(HWND hWnd, char[] lpString, int nMaxCount);
+    public static interface User32 extends StdCallLibrary
+    {
+        final User32 instance = (User32) Native.loadLibrary ("user32", User32.class);
+        boolean EnumWindows (WndEnumProc wndenumproc, int lParam);
+        void GetWindowThreadProcessId(int hWnd, IntByReference pid);
+		boolean IsWindowVisible(int hWnd);
+        
+        void GetWindowTextA(int hWnd, byte[] buffer, int buflen);
+        void GetWindowTextW(int hWnd, byte[] buffer, int buflen);        
+        int GetTopWindow(int hWnd);
+        int GetWindow(int hWnd, int flag);
+        final int GW_HWNDNEXT = 2;
     }
-    */
+
+   
+    public static class WindowInfo {
+        int hwnd;
+        
+        String title;
+        String process;
+        public WindowInfo(int hwnd, String title, String process)
+        { this.hwnd = hwnd; this.title = title;  this.process=process;}
+
+        public String toString() {
+            return title+ "|" + process;
+        }
+    }
+    
+   
+
 }

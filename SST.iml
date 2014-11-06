@@ -25,6 +25,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="library" name="jna-4.1.0" level="project" />
     <orderEntry type="library" name="jna-platform-4.1.0" level="project" />
+    <orderEntry type="library" name="commons-vfs2-2.0" level="project" />
   </component>
 </module>
 

@@ -25,7 +25,7 @@ public class Counter extends Thread{
 			Point poLoc = poInfo.getLocation();
 			int currentx = (int) poLoc.getX();
 			int currenty = (int) poLoc.getY();
-			
+			System.out.println(currentx+"|"+currenty);
 			
 			int moveToX=currentx+a;
 			int moveToY=currenty+b;
