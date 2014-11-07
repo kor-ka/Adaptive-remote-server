@@ -248,6 +248,9 @@ public class ListenServer extends Thread {
 						
 					case protocol.setForegroundWindow:
 						int hwnd = Integer.parseInt(prtcl.output);
+						
+						User32.instance.ShowWindow(hwnd, 9);	
+						
 						User32.instance.SetForegroundWindow(hwnd);
 						replyServerNameAndProcess(out);
 						
@@ -822,7 +825,8 @@ public class ListenServer extends Thread {
     {
         final User32 instance = (User32) Native.loadLibrary ("user32", User32.class);
         boolean EnumWindows (WndEnumProc wndenumproc, int lParam);
-        boolean SetForegroundWindow(int hwnd);
+        boolean ShowWindow(int hwnd, int i);
+		boolean SetForegroundWindow(int hwnd);
 		void GetWindowThreadProcessId(int hWnd, IntByReference pid);
 		boolean IsWindowVisible(int hWnd);
         
