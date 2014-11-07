@@ -179,7 +179,7 @@ public class ListenServer extends Thread {
 
                             }
                             for (WindowInfo w:windows){
-                                if(w.process!=null&&!w.title.isEmpty()&&!w.title.equals(""))s+=w.process+"<split2>"+w.title+"<split1>";
+                                if(w.process!=null&&!w.title.isEmpty()&&!w.title.equals(""))s+=w.process+"<split2>"+w.title+"<split3>"+w.hwnd+"<split1>";
                             }
 
                             out.writeUTF(s);
@@ -244,6 +244,13 @@ public class ListenServer extends Thread {
 								 out.flush();
 						    
 						    
+						break;
+						
+					case protocol.setForegroundWindow:
+						int hwnd = Integer.parseInt(prtcl.output);
+						User32.instance.SetForegroundWindow(hwnd);
+						replyServerNameAndProcess(out);
+						
 						break;
 					
 					case protocol.launch:
@@ -815,7 +822,8 @@ public class ListenServer extends Thread {
     {
         final User32 instance = (User32) Native.loadLibrary ("user32", User32.class);
         boolean EnumWindows (WndEnumProc wndenumproc, int lParam);
-        void GetWindowThreadProcessId(int hWnd, IntByReference pid);
+        boolean SetForegroundWindow(int hwnd);
+		void GetWindowThreadProcessId(int hWnd, IntByReference pid);
 		boolean IsWindowVisible(int hWnd);
         
         void GetWindowTextA(int hWnd, byte[] buffer, int buflen);

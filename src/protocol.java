@@ -15,6 +15,7 @@ final static int shortcut=9;
 final static int commandLine=10;
 final static int launchFromTaskBarList=11;
 final static int getTaskBarIcons= 12;
+final static int setForegroundWindow= 13;
 
 public String output;
 public String outputA;
@@ -72,6 +73,10 @@ public String outputCommandLine;
 			String outputStrings[] = input.split("::");
 			output = outputStrings[1];
 			return getTaskBarIcons;
+		}else if(input.contains("setForegroundWindow") ){
+			String outputStrings[] = input.split("::");
+			output = outputStrings[1];
+			return setForegroundWindow;
 		}
 		
 		
