@@ -249,7 +249,10 @@ public class ListenServer extends Thread {
 					case protocol.setForegroundWindow:
 						int hwnd = Integer.parseInt(prtcl.output);
 						
-						User32.instance.ShowWindow(hwnd, 9);	
+						if(User32.instance.IsIconic(hwnd)){
+							User32.instance.ShowWindow(hwnd, 9);
+						}
+							
 						
 						User32.instance.SetForegroundWindow(hwnd);
 						replyServerNameAndProcess(out);
@@ -829,6 +832,7 @@ public class ListenServer extends Thread {
 		boolean SetForegroundWindow(int hwnd);
 		void GetWindowThreadProcessId(int hWnd, IntByReference pid);
 		boolean IsWindowVisible(int hWnd);
+		boolean IsIconic(int hWnd);
         
         void GetWindowTextA(int hWnd, byte[] buffer, int buflen);
         void GetWindowTextW(int hWnd, byte[] buffer, int buflen);        
