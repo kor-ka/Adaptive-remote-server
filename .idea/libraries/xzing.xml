@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="xzing">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/xzing.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
