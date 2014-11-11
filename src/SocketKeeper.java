@@ -57,7 +57,13 @@ public class SocketKeeper {
 				port += 1;//(int)(Math.random() * ((65535 - 1025) + 1));
 				if(port > 1031)port = 1025;
 				ss = new ServerSocket(port); 
-				writeAdress(port);
+				 new Thread(new Runnable(){
+					 public void run (){
+						 writeAdress(port);
+						 return;
+					 }
+				 }).start();
+				
 				break;
 			} catch (Exception e) {
 				
