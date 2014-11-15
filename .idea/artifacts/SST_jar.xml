@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SST:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/SST_jar</output-path>
+    <root id="archive" name="Adaptive remote server.jar">
+      <element id="module-output" name="SST" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jna-4.1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jna-platform-4.1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/xzing.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/commons-vfs2-2.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
