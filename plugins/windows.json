@@ -1,0 +1,52 @@
+{
+  "array": [
+    {
+      "nameRU": "Alt + Tab",
+      "name": "Alt + Tab",
+      "type": 33,
+      "cmd": ""
+    },
+    {
+      "nameRU": "Завершение работы",
+      "name": "Shutdown",
+      "type": -2,
+      "cmd": "shutdown -s"
+    },
+    {
+      "nameRU": "Перезагрузка",
+      "name": "Reload",
+      "type": -2,
+      "cmd": "shutdown -r"
+    },
+    {
+      "nameRU": "Выйти из системы",
+      "name": "Logout",
+      "type": -2,
+      "cmd": "shutdown -l"
+    },
+    {
+      "nameRU": "Звук -",
+      "name": "Vol-",
+      "type": -2,
+      "cmd": "nircmdc changesysvolume -2000"
+    },
+    {
+      "nameRU": "Звук +",
+      "name": "Vol+",
+      "type": -2,
+      "cmd": "nircmdc changesysvolume 2000"
+    },
+    {
+      "nameRU": "Обеззвучить",
+      "name": "Mute",
+      "type": -2,
+      "cmd": "nircmdc mutesysvolume 2"
+    },
+    {
+      "nameRU": "Сказать",
+      "name": "Say",
+      "type": -2,
+      "cmd": "nircmdc speak text \"<input>\""
+    }
+  ]
+}

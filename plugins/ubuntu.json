@@ -1,0 +1,24 @@
+{
+  "array": [
+    {
+      "nameRU": "Звук -",
+      "name": "Vol -",
+      "type": -2,
+      "cmd": "amixer set 'Master' 10%-"
+    },
+
+    {
+      "nameRU": "Звук +",
+      "name": "Vol +",
+      "type": -2,
+      "cmd": "amixer set 'Master' 10%+"
+    },
+
+    {
+      "nameRU": "Обеззвучить",
+      "name": "Mute",
+      "type": -2,
+      "cmd": "amixer -q -D pulse sset Master toggle"
+    }
+  ]
+}

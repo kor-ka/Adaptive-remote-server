@@ -1,0 +1,34 @@
+{
+  "array": [
+    {
+      "nameRU": "Обновить",
+      "name": "Refresh",
+      "type": -1,
+      "cmd": "F5"
+    },
+    {
+      "nameRU": "Новая вкладка",
+      "name": "New tab",
+      "type": -1,
+      "cmd": "Ctrl + T"
+    },
+    {
+      "nameRU": "Восстановить вкладку",
+      "name": "Reopen tab",
+      "type": -1,
+      "cmd": "Ctrl + Shift + T"
+    },
+    {
+      "nameRU": "",
+      "name": "Close tab",
+      "type": -1,
+      "cmd": "Ctrl + W"
+    },
+    {
+      "nameRU": "Поиск",
+      "name": "Search",
+      "type": -2,
+      "cmd": "start chrome \"google.ru/search?q=<input>\""
+    }
+  ]
+}
