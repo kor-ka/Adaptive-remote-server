@@ -4,7 +4,7 @@
       "nameRU": "II>",
       "name": "II>",
       "type": -2,
-      "cmd": "forward::9090::{\"jsonrpc\": \"2.0\", \"method\": \"Player.PlayPause\", \"params\": { \"playerid\": 0 }, \"id\": 1}"
+      "cmd": "forward::9090::{\"jsonrpc\": \"2.0\", \"method\": \"Player.PlayPause\", \"params\": { \"playerid\": 1 }, \"id\": 1}"
     }
   ]
 }
