@@ -1,16 +1,10 @@
 {
   "array": [
     {
-      "nameRU": "Обновить",
-      "name": "Refresh",
+      "nameRU": "←",
+      "name": "←",
       "type": -1,
-      "cmd": "F5"
-    },
-    {
-      "nameRU": "Новая вкладка",
-      "name": "New tab",
-      "type": -1,
-      "cmd": "Ctrl + T"
+      "cmd": "Alt + Left arrow"
     },
     {
       "nameRU": "Восстановить вкладку",
@@ -19,10 +13,58 @@
       "cmd": "Ctrl + Shift + T"
     },
     {
-      "nameRU": "",
+      "nameRU": "→",
+      "name": "→",
+      "type": -1,
+      "cmd": "Alt + Right arrow"
+    },
+    {
+      "nameRU": "Вкладка влево",
+      "name": "Tab left",
+      "type": -1,
+      "cmd": "Ctrl + Shift + Tab"
+    },
+    {
+      "nameRU": "Новая вкладка",
+      "name": "New tab",
+      "type": -1,
+      "cmd": "Ctrl + T"
+    },
+    {
+      "nameRU": "Вкладув вправо",
+      "name": "Tab right",
+      "type": -1,
+      "cmd": "Ctrl + Tab"
+    },
+    {
+      "nameRU": "Обновить",
+      "name": "Refresh",
+      "type": -1,
+      "cmd": "F5"
+    },
+    {
+      "nameRU": "Закрыть вкладку",
       "name": "Close tab",
       "type": -1,
       "cmd": "Ctrl + W"
+    },
+    {
+      "nameRU": "Крутой скролл",
+      "name": "Cool scroll",
+      "type": 44,
+      "cmd": ""
+    },
+    {
+      "nameRU": "История",
+      "name": "History",
+      "type": -1,
+      "cmd": "Ctrl + H"
+    },
+    {
+      "nameRU": "Загрузки",
+      "name": "Downloads",
+      "type": -1,
+      "cmd": "Ctrl + J"
     },
     {
       "nameRU": "Поиск",
@@ -30,5 +72,10 @@
       "type": -2,
       "cmd": "start chrome \"google.ru/search?q=<input>\""
     }
-  ]
+  ],
+  "proc": [
+    "chrome",
+    "Google Chrome"
+  ],
+  "color": "#FF469F25"
 }
