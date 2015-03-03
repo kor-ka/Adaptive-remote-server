@@ -1,0 +1,46 @@
+{
+  "array": [
+    {
+      "nameRU": "\u25c0\u25c0",
+      "name": "\u25c0\u25c0",
+      "type": -1,
+      "cmd": "p"
+    },
+    {
+      "nameRU": "\u25b6\u25b6",
+      "name": "\u25b6\u25b6",
+      "type": -1,
+      "cmd": "n"
+    },
+    {
+      "nameRU": "\u25b6",
+      "name": "\u25b6",
+      "type": -1,
+      "cmd": "Space"
+    },
+    {
+      "nameRU": "Плейлист",
+      "name": "Playlist",
+      "type": -1,
+      "cmd": "Ctrl + L"
+    },
+    {
+      "nameRU": "Звук +",
+      "name": "Vol +",
+      "type": -1,
+      "cmd": "Ctrl + Up arrow"
+    },
+    {
+      "nameRU": "Звук -",
+      "name": "Vol -",
+      "type": -1,
+      "cmd": "Ctrl + Up down"
+    },
+    {
+      "nameRU": "Тихо!",
+      "name": "Mute",
+      "type": -1,
+      "cmd": "M"
+    }
+  ]
+}
