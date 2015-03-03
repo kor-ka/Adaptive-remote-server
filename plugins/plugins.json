@@ -1,0 +1,32 @@
+{
+  "array": [
+    {
+      "name": "chrome",
+      "link": "https://dl.dropboxusercontent.com/u/30840341/Adaptive%20remote/plugins/chrome.json",
+      "icoLink": "https://dl.dropboxusercontent.com/u/30840341/Adaptive%20remote/plugins/chrome.png"
+    },
+  
+    {
+      "name": "windows",
+      "link": "https://dl.dropboxusercontent.com/u/30840341/Adaptive%20remote/plugins/windows.json",
+      "icoLink": "https://dl.dropboxusercontent.com/u/30840341/Adaptive%20remote/plugins/windows.png"
+    },
+  
+    {
+      "name": "ubuntu",
+      "link": "https://dl.dropboxusercontent.com/u/30840341/Adaptive%20remote/plugins/ubuntu.json",
+      "icoLink": "https://dl.dropboxusercontent.com/u/30840341/Adaptive%20remote/plugins/ubuntu.png"
+    },
+  
+    {
+      "name": "XBMC",
+      "link": "https://dl.dropboxusercontent.com/u/30840341/Adaptive%20remote/plugins/xbmc.json",
+      "icoLink": ""
+    },
+    {
+      "name": "VLC",
+      "link": "https://dl.dropboxusercontent.com/u/30840341/Adaptive%20remote/plugins/vlc.json",
+      "icoLink": ""
+    }
+  ]
+}
