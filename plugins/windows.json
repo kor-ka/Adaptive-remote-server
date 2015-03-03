@@ -25,6 +25,12 @@
       "cmd": "shutdown -l"
     },
     {
+      "nameRU": "Блокировать",
+      "name": "Lock",
+      "type": -2,
+      "cmd": "rundll32.exe user32.dll, LockWorkStation"
+    },
+    {
       "nameRU": "Звук -",
       "name": "Vol-",
       "type": -2,
@@ -48,5 +54,6 @@
       "type": -2,
       "cmd": "nircmdc speak text \"<input>\""
     }
-  ]
+  ],
+  "color": "#FF00A473"
 }
