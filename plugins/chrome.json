@@ -71,6 +71,12 @@
       "name": "Search",
       "type": -2,
       "cmd": "start chrome \"google.ru/search?q=<input>\""
+    },
+    {
+      "nameRU": "WatsApp Web",
+      "name": "WatsApp Web",
+      "type": -2,
+      "cmd": "\"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe\"  --app=https://web.whatsapp.com/"
     }
   ],
   "proc": [
