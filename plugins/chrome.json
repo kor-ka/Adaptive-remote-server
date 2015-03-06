@@ -76,7 +76,13 @@
       "nameRU": "WatsApp Web",
       "name": "WatsApp Web",
       "type": -2,
-      "cmd": "\"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\"  --app=https://web.whatsapp.com/"
+      "cmd": "start chrome  --app=https://web.whatsapp.com/"
+    },
+    {
+      "nameRU": "Habrahabr",
+      "name": "Хабрахабр",
+      "type": -2,
+      "cmd": "start chrome   --app=http://habrahabr.ru/"
     }
   ],
   "proc": [
