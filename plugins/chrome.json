@@ -76,7 +76,7 @@
       "nameRU": "WatsApp Web",
       "name": "WatsApp Web",
       "type": -2,
-      "cmd": "\"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe\"  --app=https://web.whatsapp.com/"
+      "cmd": "\"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\"  --app=https://web.whatsapp.com/"
     }
   ],
   "proc": [
