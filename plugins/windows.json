@@ -53,6 +53,24 @@
       "name": "Say",
       "type": -2,
       "cmd": "nircmdc speak text \"<input>\""
+    },
+    {
+      "nameRU": "Play/Pause",
+      "name": "Play/Pause",
+      "type": -2,
+      "cmd": "ahk Send {Media_Play_Pause}"
+    },
+    {
+      "nameRU": "Media next",
+      "name": "Media next",
+      "type": -2,
+      "cmd": "ahk Send {Media_Next}"
+    },
+    {
+      "nameRU": "Media prev",
+      "name": "Media prev",
+      "type": -2,
+      "cmd": "ahk Send {Media_Prev}"
     }
   ],
   "color": "#FF00A473"
