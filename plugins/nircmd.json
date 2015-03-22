@@ -4,7 +4,7 @@
       "nameRU": "Оповещение",
       "name": "Tray balloon",
       "type": -2,
-      "cmd": "nircmd trayballoon \"<input>\" \"Adaptive remote\" \"\" 5000"
+      "cmd": "nircmdc trayballoon \"<input>\" \"Adaptive remote\" \"\" 5000"
     }
   ]
 }
