@@ -1,10 +1,23 @@
 {
+  
   "array": [
     {
       "nameRU": "Оповещение",
       "name": "Tray balloon",
       "type": -2,
       "cmd": "nircmdc trayballoon \"<input>\" \"Adaptive remote\" \"\" 5000"
+    },
+    {
+      "nameRU": "Закрепить окно, сделать полупрозрачным",
+      "name": "Pin window, make it transparent,
+      "type": -2,
+      "cmd": "nircmd win settopmost foreground 1 & nircmdc win trans foreground 150"
+    },
+    {
+      "nameRU": "Открепить окно, отменить прозрачность",
+      "name": "Unpin window, make it not transparent,
+      "type": -2,
+      "cmd": "nircmd win settopmost foreground 0 & nircmdc win trans foreground 255"
     }
   ]
 }
