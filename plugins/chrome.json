@@ -83,7 +83,14 @@
       "name": "Хабрахабр",
       "type": -2,
       "cmd": "start chrome   --app=http://habrahabr.ru/"
+    },
+    {
+      "nameRU": "Google Play Music",
+      "name": "Google Play Music",
+      "type": -2,
+      "cmd": "start chrome   --app=https://play.google.com/music"
     }
+    
   ],
   "proc": [
     "chrome",
