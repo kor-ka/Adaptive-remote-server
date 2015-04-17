@@ -32,6 +32,11 @@
       "name": "nircmd",
       "link": "https://raw.githubusercontent.com/kor-ka/Adaptive-remote-server/mouse/plugins/nircmd.json",
       "icoLink": ""
+    },
+    {
+      "name": "Autohotkey",
+      "link": "https://raw.githubusercontent.com/kor-ka/Adaptive-remote-server/mouse/plugins/autohotkey.json",
+      "icoLink": ""
     }
   ]
 }
