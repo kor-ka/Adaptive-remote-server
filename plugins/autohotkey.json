@@ -4,7 +4,7 @@
       "nameRU": "Оповещение",
       "name": "Notification",
       "type": -2,
-      "cmd": "ahk #Persistent\n#SingleInstance, Force \n; Your controls\nGui, Font, s10 Bold\nGui, Add, Text, center w2048, %artist\nGui, Add, Text, center w2048, %track \n; Removes the Border and Task bar icon\nGui, +ToolWindow -Caption\n; can be any colour but it's good to use a color that is NOT present in ur GUI\n;Gui, Color, EEAA99 \nGui, Show, W2048 H100 X0 Y0, Test \nWinSet, TransColor, EEAA99 150, Test\nSleep 3000\nGui, Cancel\nReturn"
+      "cmd": "ahk #Persistent\n#SingleInstance, Force \n; Your controls\nGui, Font, s10 Bold\nGui, Add, Text, center w2048, Text 1\nGui, Add, Text, center w2048, Text 2 \n; Removes the Border and Task bar icon\nGui, +ToolWindow -Caption\n; can be any colour but it's good to use a color that is NOT present in ur GUI\n;Gui, Color, EEAA99 \nGui, Show, W2048 H100 X0 Y0, Test \nWinSet, TransColor, EEAA99 150, Test\nSleep 3000\nGui, Cancel\nReturn"
     }
   ]
 }
