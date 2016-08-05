@@ -173,9 +173,8 @@ public class SocketKeeper {
         if(labelSqare == null)labelSqare = new JLabel(new ImageIcon(image));
 
         labelSqare.setIcon(new ImageIcon(image));
-        labelSqare.setText("<html><center>QR для настройки<br/>" +
+        labelSqare.setText("<html><center>QR code for setting up<br/>" +
                 "Adaptive remote.<br/>" +
-                "Для настройки вручную:"+"<br/>"+
                 "<br/>"+
                 "IP:   "+getFirstNonLoopbackAddress(true,false).getHostAddress()+"<br/>"+
                 "Port: "+port+"<br/>"+"</center></html>");
